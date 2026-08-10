@@ -1,0 +1,48 @@
+<div class="page">
+  <h1>Create Property</h1>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="property-form" novalidate>
+    <label>
+      <span>Title</span>
+      <input formControlName="title" type="text" placeholder="Property title" />
+      @if (form.controls['title'].invalid && form.controls['title'].touched) {
+      <span class="error">Title is required.</span>
+      }
+    </label>
+
+    <label>
+      <span>Description</span>
+      <textarea formControlName="description" placeholder="Property description"></textarea>
+      @if (form.controls['description'].invalid && form.controls['description'].touched) {
+      <span class="error">Description is required.</span>
+      }
+    </label>
+
+    <label>
+      <span>Price</span>
+      <input formControlName="price" type="number" min="1" />
+      @if (form.controls['price'].invalid && form.controls['price'].touched) {
+      <span class="error">Price is required and must be greater than zero.</span>
+      }
+    </label>
+
+    <label>
+      <span>Address</span>
+      <input formControlName="address" type="text" placeholder="Property address" />
+      @if (form.controls['address'].invalid && form.controls['address'].touched) {
+      <span class="error">Address is required.</span>
+      }
+    </label>
+
+    <button type="submit" [disabled]="isSubmitting">
+      {{ isSubmitting ? 'Saving...' : 'Create Property' }}
+    </button>
+  </form>
+
+  @if (successMessage) {
+  <div class="message success">{{ successMessage }}</div>
+  }
+  @if (errorMessage) {
+  <div class="message error">{{ errorMessage }}</div>
+  }
+</div>
