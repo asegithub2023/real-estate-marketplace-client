@@ -5,6 +5,7 @@
     "packageManager": "npm",
     "analytics": "c7167221-94cd-4cba-bb58-5198a6700f98"
   },
+
   "newProjectRoot": "projects",
   "projects": {
     "realestate-client": {
@@ -30,7 +31,12 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"]
+
+            "styles": [
+  "node_modules/bootstrap/dist/css/bootstrap.min.css",
+  "node_modules/bootstrap-icons/font/bootstrap-icons.css",
+  "src/styles.scss"
+]
           },
           "configurations": {
             "production": {
@@ -81,3 +87,5 @@
     }
   }
 }
+
+

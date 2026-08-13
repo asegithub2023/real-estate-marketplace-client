@@ -1,1 +1,62 @@
-<p>navbar works!</p>
+<nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm">
+  <div class="container">
+
+    <a class="navbar-brand fw-bold" routerLink="/">
+      <i class="bi bi-buildings me-2"></i>
+      RealEstate
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#mainNavbar"
+      aria-controls="mainNavbar"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNavbar">
+
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">
+            Home
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/properties"
+            routerLinkActive="active">
+            Properties
+          </a>
+        </li>
+
+      </ul>
+
+      <div class="d-flex gap-2">
+        <a
+          routerLink="/login"
+          class="btn btn-outline-primary">
+          Login
+        </a>
+
+        <a
+          routerLink="/register"
+          class="btn btn-primary">
+          Register
+        </a>
+      </div>
+
+    </div>
+  </div>
+</nav>
