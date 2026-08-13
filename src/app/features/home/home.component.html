@@ -1,23 +1,340 @@
-<section class="container py-5">
+<!-- Hero -->
+<section class="hero-section">
 
-  <div class="text-center py-5">
+  <div class="container">
 
-    <i class="bi bi-buildings display-1 text-primary"></i>
+    <div class="row align-items-center min-vh-75">
 
-    <h1 class="display-5 fw-bold mt-4">
-      Find Your Perfect Property
-    </h1>
+      <div class="col-lg-7">
 
-    <p class="lead text-muted">
-      Discover properties that match your needs.
+        <span class="badge bg-primary-subtle text-primary px-3 py-2 mb-3">
+          REAL ESTATE MARKETPLACE
+        </span>
+
+        <h1 class="display-3 fw-bold">
+          Find a place you'll
+          <span class="text-primary">love to call home.</span>
+        </h1>
+
+        <p class="lead text-muted my-4">
+          Discover homes, apartments and properties that match
+          your lifestyle and budget.
+        </p>
+
+        <div class="d-flex flex-wrap gap-3">
+
+          <a
+            routerLink="/properties"
+            class="btn btn-primary btn-lg px-4">
+
+            <i class="bi bi-search me-2"></i>
+            Explore Properties
+
+          </a>
+
+          <a
+            routerLink="/properties/create"
+            class="btn btn-outline-dark btn-lg px-4">
+
+            <i class="bi bi-plus-lg me-2"></i>
+            List Your Property
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- Featured Properties -->
+<section class="py-5">
+
+  <div class="container py-4">
+
+    <div
+      class="d-flex justify-content-between align-items-end mb-4">
+
+      <div>
+
+        <span class="text-primary fw-semibold">
+          FEATURED
+        </span>
+
+        <h2 class="fw-bold mt-2 mb-1">
+          Featured Properties
+        </h2>
+
+        <p class="text-muted mb-0">
+          Explore some of the latest properties.
+        </p>
+
+      </div>
+
+      <a
+        routerLink="/properties"
+        class="btn btn-outline-primary">
+
+        View All
+        <i class="bi bi-arrow-right ms-2"></i>
+
+      </a>
+
+    </div>
+
+
+    <!-- Loading -->
+    @if (loading) {
+
+      <div class="text-center py-5">
+
+        <div
+          class="spinner-border text-primary"
+          role="status">
+        </div>
+
+        <p class="text-muted mt-3">
+          Loading properties...
+        </p>
+
+      </div>
+
+    }
+
+
+    <!-- Properties -->
+    @else if (featuredProperties.length > 0) {
+
+      <div class="row g-4">
+
+        @for (
+          property of featuredProperties;
+          track property.id
+        ) {
+
+          <div class="col-md-6 col-lg-4">
+
+            <div class="card property-card h-100 border-0 shadow-sm">
+
+              <!-- Image -->
+              <div class="property-image-wrapper">
+
+                <img
+                  [src]="getPropertyImage(property)"
+                  [alt]="property.title"
+                  class="property-image"
+                />
+
+                <span class="badge bg-primary property-status">
+                  {{ property.status }}
+                </span>
+
+              </div>
+
+
+              <!-- Content -->
+              <div class="card-body">
+
+                <div class="text-primary fw-bold mb-2">
+                  {{ property.price | number }}
+                </div>
+
+                <h5 class="fw-semibold">
+                  {{ property.title }}
+                </h5>
+
+                <p class="text-muted mb-3">
+
+                  <i class="bi bi-geo-alt me-1"></i>
+
+                  {{ property.city }}, {{ property.country }}
+
+                </p>
+
+
+                <div class="property-details">
+
+                  <span>
+                    <i class="bi bi-door-open me-1"></i>
+                    {{ property.bedrooms }} Beds
+                  </span>
+
+                  <span>
+                    <i class="bi bi-droplet me-1"></i>
+                    {{ property.bathrooms }} Baths
+                  </span>
+
+                  <span>
+                    <i class="bi bi-rulers me-1"></i>
+                    {{ property.area }} m²
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="card-footer bg-white border-0 p-3">
+
+                <a
+                  routerLink="/properties"
+                  class="btn btn-outline-primary w-100">
+
+                  View Property
+
+                  <i class="bi bi-arrow-right ms-2"></i>
+
+                </a>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    }
+
+    @else {
+
+      <div class="text-center py-5">
+
+        <i class="bi bi-house display-4 text-muted"></i>
+
+        <h5 class="mt-3">
+          No featured properties available
+        </h5>
+
+      </div>
+
+    }
+
+  </div>
+
+</section>
+
+
+<!-- Why Choose Us -->
+<section class="why-section py-5">
+
+  <div class="container py-4">
+
+    <div class="text-center mb-5">
+
+      <span class="text-primary fw-semibold">
+        WHY CHOOSE US
+      </span>
+
+      <h2 class="fw-bold mt-2">
+        Everything you need to find your property
+      </h2>
+
+    </div>
+
+
+    <div class="row g-4">
+
+      <div class="col-md-4">
+
+        <div class="feature-card text-center">
+
+          <div class="feature-icon">
+            <i class="bi bi-search"></i>
+          </div>
+
+          <h5 class="fw-bold">
+            Easy Search
+          </h5>
+
+          <p class="text-muted mb-0">
+            Quickly find properties using powerful
+            search and filtering options.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="col-md-4">
+
+        <div class="feature-card text-center">
+
+          <div class="feature-icon">
+            <i class="bi bi-buildings"></i>
+          </div>
+
+          <h5 class="fw-bold">
+            Wide Selection
+          </h5>
+
+          <p class="text-muted mb-0">
+            Browse properties for different needs,
+            locations and budgets.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="col-md-4">
+
+        <div class="feature-card text-center">
+
+          <div class="feature-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+
+          <h5 class="fw-bold">
+            Trusted Marketplace
+          </h5>
+
+          <p class="text-muted mb-0">
+            Connect with property owners through
+            a reliable marketplace.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- CTA -->
+<section class="cta-section py-5">
+
+  <div class="container py-5 text-center">
+
+    <h2 class="fw-bold">
+      Ready to find your next property?
+    </h2>
+
+    <p class="mt-3 mb-4">
+      Explore available properties and find the
+      one that's right for you.
     </p>
 
     <a
       routerLink="/properties"
-      class="btn btn-primary btn-lg mt-3">
+      class="btn btn-light btn-lg px-4">
 
-      <i class="bi bi-search me-2"></i>
       Browse Properties
+
+      <i class="bi bi-arrow-right ms-2"></i>
 
     </a>
 
