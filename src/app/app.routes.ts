@@ -18,15 +18,14 @@ export const routes: Routes = [
         (m) => m.CreatePropertyComponent
       )
   },
-//
-  //{
-    //path: 'properties',
-    //loadComponent: () =>
-     // import('./features/property-list/property-list').then(
-        //(m) => m.PropertyListComponent
-     // )
-  //},
-//
+
+{
+  path: 'properties',
+  loadComponent: () =>
+    import('./features/property-list/property-list.component')
+      .then(m => m.PropertyListComponent)
+},
+
   {
     path: '**',
     component: NotFoundComponent
