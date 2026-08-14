@@ -6,7 +6,7 @@ import {
   ValidationErrors,
   Validators
 } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from '../../../services/auth.service';
 
@@ -21,8 +21,7 @@ function passwordsMatch(control: AbstractControl): ValidationErrors | null {
   selector: 'app-reset-password',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
-    RouterLink
+    ReactiveFormsModule
   ],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss'
