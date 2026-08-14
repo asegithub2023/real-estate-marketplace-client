@@ -1,0 +1,102 @@
+.dashboard-layout {
+  min-height: 100vh;
+  display: flex;
+  background: #f8f9fa;
+}
+
+.dashboard-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.dashboard-content {
+  padding: 1.5rem;
+}
+
+.stat-card {
+  min-height: 120px;
+  padding: 1.25rem;
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.stat-icon {
+  width: 52px;
+  height: 52px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  font-size: 1.4rem;
+}
+
+.properties-icon {
+  background: #e7f1ff;
+  color: #0d6efd;
+}
+
+.active-icon {
+  background: #d1e7dd;
+  color: #198754;
+}
+
+.favorites-icon {
+  background: #f8d7da;
+  color: #dc3545;
+}
+
+.notifications-icon {
+  background: #fff3cd;
+  color: #997404;
+}
+
+.dashboard-card {
+  min-height: 220px;
+  padding: 1.5rem;
+
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.card-header-custom {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.empty-state {
+  min-height: 140px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.empty-state i {
+  font-size: 2.5rem;
+  color: #adb5bd;
+}
+
+@media (max-width: 768px) {
+  .dashboard-content {
+    padding: 1rem;
+  }
+}

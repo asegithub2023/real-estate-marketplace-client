@@ -1,0 +1,207 @@
+<div class="dashboard-layout">
+
+  <app-dashboard-sidebar />
+
+  <div class="dashboard-main">
+
+    <app-dashboard-header />
+
+    <main class="dashboard-content">
+
+      <!-- Welcome -->
+      <section class="welcome-section mb-4">
+
+        <h2 class="h4 fw-bold mb-1">
+          Welcome back!
+        </h2>
+
+        <p class="text-muted mb-0">
+          Here's what's happening with your account.
+        </p>
+
+      </section>
+
+
+      <!-- Statistics -->
+      <section class="row g-4 mb-4">
+
+        <!-- Properties -->
+        <div class="col-12 col-sm-6 col-xl-3">
+
+          <div class="stat-card">
+
+            <div class="stat-icon properties-icon">
+              <i class="bi bi-house"></i>
+            </div>
+
+            <div>
+              <p class="text-muted mb-1">
+                My Properties
+              </p>
+
+              <h3 class="fw-bold mb-0">
+                {{ stats.totalProperties }}
+              </h3>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Active -->
+        <div class="col-12 col-sm-6 col-xl-3">
+
+          <div class="stat-card">
+
+            <div class="stat-icon active-icon">
+              <i class="bi bi-check-circle"></i>
+            </div>
+
+            <div>
+              <p class="text-muted mb-1">
+                Active Listings
+              </p>
+
+              <h3 class="fw-bold mb-0">
+                {{ stats.activeProperties }}
+              </h3>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Favorites -->
+        <div class="col-12 col-sm-6 col-xl-3">
+
+          <div class="stat-card">
+
+            <div class="stat-icon favorites-icon">
+              <i class="bi bi-heart"></i>
+            </div>
+
+            <div>
+              <p class="text-muted mb-1">
+                Favorites
+              </p>
+
+              <h3 class="fw-bold mb-0">
+                {{ stats.favorites }}
+              </h3>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Notifications -->
+        <div class="col-12 col-sm-6 col-xl-3">
+
+          <div class="stat-card">
+
+            <div class="stat-icon notifications-icon">
+              <i class="bi bi-bell"></i>
+            </div>
+
+            <div>
+              <p class="text-muted mb-1">
+                Notifications
+              </p>
+
+              <h3 class="fw-bold mb-0">
+                {{ stats.unreadNotifications }}
+              </h3>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- Recent Activity -->
+      <section class="row g-4">
+
+        <div class="col-12 col-lg-8">
+
+          <div class="dashboard-card">
+
+            <div class="card-header-custom">
+
+              <div>
+                <h3 class="h5 fw-bold mb-1">
+                  Recent Activity
+                </h3>
+
+                <p class="text-muted small mb-0">
+                  Your latest marketplace activity
+                </p>
+              </div>
+
+            </div>
+
+            <div class="empty-state">
+
+              <i class="bi bi-clock-history"></i>
+
+              <h4 class="h6 fw-semibold mt-3">
+                No recent activity
+              </h4>
+
+              <p class="text-muted mb-0">
+                Your recent activity will appear here.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Quick Actions -->
+        <div class="col-12 col-lg-4">
+
+          <div class="dashboard-card">
+
+            <h3 class="h5 fw-bold mb-3">
+              Quick Actions
+            </h3>
+
+            <div class="d-grid gap-2">
+
+              <a
+                routerLink="/properties/create"
+                class="btn btn-primary">
+
+                <i class="bi bi-plus-lg me-2"></i>
+                Add Property
+
+              </a>
+
+              <a
+                routerLink="/properties"
+                class="btn btn-outline-primary">
+
+                <i class="bi bi-search me-2"></i>
+                Browse Properties
+
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</div>

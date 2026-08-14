@@ -55,6 +55,48 @@ export const routes: Routes = [
       .then(m => m.ResetPasswordComponent)
 },
 
+{
+  path: 'dashboard',
+  loadComponent: () =>
+    import('./features/user/user-dashboard/user-dashboard.component')
+      .then(m => m.UserDashboardComponent)
+},
+
+{
+  path: 'dashboard/profile',
+  loadComponent: () =>
+    import('./features/user/profile/profile.component')
+      .then(m => m.ProfileComponent)
+},
+
+{
+  path: 'dashboard/properties',
+  loadComponent: () =>
+    import('./features/user/my-properties/my-properties.component')
+      .then(m => m.MyPropertiesComponent)
+},
+
+{
+  path: 'dashboard/favorites',
+  loadComponent: () =>
+    import('./features/user/favorites/favorites.component')
+      .then(m => m.FavoritesComponent)
+},
+
+{
+  path: 'dashboard/notifications',
+  loadComponent: () =>
+    import('./features/user/notifications/notifications.component')
+      .then(m => m.NotificationsComponent)
+},
+
+{
+  path: 'dashboard/messages',
+  loadComponent: () =>
+    import('./features/user/messages/messages.component')
+      .then(m => m.MessagesComponent)
+},
+
   {
     path: '**',
     component: NotFoundComponent

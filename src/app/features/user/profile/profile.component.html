@@ -1,0 +1,135 @@
+<div class="profile-page">
+
+  <div class="page-header">
+    <div>
+      <h1 class="h4 fw-bold mb-1">My Profile</h1>
+      <p class="text-muted mb-0">
+        Manage your personal information.
+      </p>
+    </div>
+
+    @if (!isEditing) {
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="startEditing()">
+
+        <i class="bi bi-pencil me-2"></i>
+        Edit Profile
+
+      </button>
+    }
+  </div>
+
+  <div class="profile-card">
+
+    <div class="profile-avatar">
+      <i class="bi bi-person"></i>
+    </div>
+
+    <div class="profile-info">
+      <h2 class="h5 fw-bold mb-1">
+        {{ profile.fullName || 'Your Name' }}
+      </h2>
+
+      <p class="text-muted mb-0">
+        Real Estate Marketplace User
+      </p>
+    </div>
+
+  </div>
+
+  <div class="profile-card">
+
+    <h2 class="h5 fw-bold mb-4">
+      Personal Information
+    </h2>
+
+    <form (ngSubmit)="saveProfile()">
+
+      <div class="row g-4">
+
+        <div class="col-12 col-md-6">
+
+          <label for="fullName" class="form-label">
+            Full Name
+          </label>
+
+          <input
+            id="fullName"
+            type="text"
+            class="form-control"
+            name="fullName"
+            [(ngModel)]="profile.fullName"
+            [disabled]="!isEditing"
+            placeholder="Enter your full name">
+
+        </div>
+
+        <div class="col-12 col-md-6">
+
+          <label for="email" class="form-label">
+            Email
+          </label>
+
+          <input
+            id="email"
+            type="email"
+            class="form-control"
+            name="email"
+            [(ngModel)]="profile.email"
+            [disabled]="!isEditing"
+            placeholder="Enter your email">
+
+        </div>
+
+        <div class="col-12 col-md-6">
+
+          <label for="phoneNumber" class="form-label">
+            Phone Number
+          </label>
+
+          <input
+            id="phoneNumber"
+            type="tel"
+            class="form-control"
+            name="phoneNumber"
+            [(ngModel)]="profile.phoneNumber"
+            [disabled]="!isEditing"
+            placeholder="Enter your phone number">
+
+        </div>
+
+      </div>
+
+      @if (isEditing) {
+
+        <div class="form-actions mt-4">
+
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="cancelEditing()">
+
+            Cancel
+
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-primary">
+
+            <i class="bi bi-check-lg me-2"></i>
+            Save Changes
+
+          </button>
+
+        </div>
+
+      }
+
+    </form>
+
+  </div>
+
+</div>
