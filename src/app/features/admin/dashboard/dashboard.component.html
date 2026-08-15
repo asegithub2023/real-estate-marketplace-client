@@ -1,0 +1,257 @@
+<div class="admin-dashboard">
+
+  <!-- Header -->
+  <div class="dashboard-header">
+
+    <div>
+      <h1 class="h4 fw-bold mb-1">
+        Admin Dashboard
+      </h1>
+
+      <p class="text-muted mb-0">
+        Overview of your Real Estate Marketplace.
+      </p>
+    </div>
+
+    <button class="btn btn-primary">
+      <i class="bi bi-plus-lg me-2"></i>
+      Add Property
+    </button>
+
+  </div>
+
+
+  <!-- Statistics -->
+  <div class="row g-4 mb-4">
+
+    @for (stat of stats; track stat.title) {
+
+      <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="stat-card">
+
+          <div class="stat-icon">
+            <i class="bi {{ stat.icon }}"></i>
+          </div>
+
+          <div class="stat-content">
+
+            <p class="text-muted mb-1">
+              {{ stat.title }}
+            </p>
+
+            <h2 class="h4 fw-bold mb-1">
+              {{ stat.value }}
+            </h2>
+
+            <small class="text-muted">
+              {{ stat.description }}
+            </small>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+
+  <!-- Main Content -->
+  <div class="row g-4">
+
+    <!-- Recent Properties -->
+    <div class="col-12 col-xl-8">
+
+      <div class="dashboard-card">
+
+        <div class="card-header-custom">
+
+          <div>
+            <h2 class="h6 fw-bold mb-1">
+              Recent Properties
+            </h2>
+
+            <p class="text-muted small mb-0">
+              Recently added properties
+            </p>
+          </div>
+
+          <a
+            routerLink="/admin/properties"
+            class="btn btn-sm btn-outline-primary">
+
+            View All
+
+          </a>
+
+        </div>
+
+
+        <div class="table-responsive">
+
+          <table class="table align-middle mb-0">
+
+            <thead>
+
+              <tr>
+                <th>Property</th>
+                <th>Location</th>
+                <th>Price</th>
+                <th>Status</th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              @for (
+                property of recentProperties;
+                track property.title
+              ) {
+
+                <tr>
+
+                  <td class="fw-semibold">
+                    {{ property.title }}
+                  </td>
+
+                  <td>
+                    {{ property.location }}
+                  </td>
+
+                  <td>
+                    {{ property.price }}
+                  </td>
+
+                  <td>
+
+                    <span
+                      class="badge"
+                      [class.bg-success]="property.status === 'Active'"
+                      [class.bg-warning]="property.status === 'Pending'">
+
+                      {{ property.status }}
+
+                    </span>
+
+                  </td>
+
+                </tr>
+
+              }
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Recent Users -->
+    <div class="col-12 col-xl-4">
+
+      <div class="dashboard-card">
+
+        <div class="card-header-custom">
+
+          <div>
+            <h2 class="h6 fw-bold mb-1">
+              Recent Users
+            </h2>
+
+            <p class="text-muted small mb-0">
+              Newly registered users
+            </p>
+          </div>
+
+          <a
+            routerLink="/admin/users"
+            class="btn btn-sm btn-outline-primary">
+
+            View All
+
+          </a>
+
+        </div>
+
+
+        <div class="users-list">
+
+          @for (user of recentUsers; track user.email) {
+
+            <div class="user-item">
+
+              <div class="user-avatar">
+                {{ user.name.charAt(0) }}
+              </div>
+
+              <div class="user-info">
+
+                <strong>
+                  {{ user.name }}
+                </strong>
+
+                <small class="text-muted d-block">
+                  {{ user.email }}
+                </small>
+
+              </div>
+
+              <span class="badge bg-light text-dark">
+                {{ user.role }}
+              </span>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Reports -->
+    <div class="col-12">
+
+      <div class="dashboard-card report-card">
+
+        <div class="report-icon">
+          <i class="bi bi-flag"></i>
+        </div>
+
+        <div class="flex-grow-1">
+
+          <h2 class="h6 fw-bold mb-1">
+            Reports Need Attention
+          </h2>
+
+          <p class="text-muted mb-0">
+            There are 24 reports waiting for admin review.
+          </p>
+
+        </div>
+
+        <a
+          routerLink="/admin/reports"
+          class="btn btn-outline-danger">
+
+          Review Reports
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
