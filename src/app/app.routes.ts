@@ -97,6 +97,13 @@ export const routes: Routes = [
       .then(m => m.MessagesComponent)
 },
 
+{
+  path: 'properties/:id/reviews',
+  loadComponent: () =>
+    import('./features/reviews/property-reviews/property-reviews.component')
+      .then(m => m.PropertyReviewsComponent)
+},
+
   {
     path: '**',
     component: NotFoundComponent
