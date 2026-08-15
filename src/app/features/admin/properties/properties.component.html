@@ -1,0 +1,142 @@
+<div class="admin-page">
+
+  <div class="page-header">
+    <div>
+      <h1 class="h4 fw-bold mb-1">Property Management</h1>
+      <p class="text-muted mb-0">
+        Review and manage marketplace properties.
+      </p>
+    </div>
+  </div>
+
+  <div class="admin-card">
+
+    <div class="toolbar">
+
+      <div class="search-box">
+
+        <i class="bi bi-search"></i>
+
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="searchTerm"
+          placeholder="Search properties...">
+
+      </div>
+
+      <span class="text-muted">
+        {{ filteredProperties.length }} properties
+      </span>
+
+    </div>
+
+
+    <div class="table-responsive">
+
+      <table class="table align-middle mb-0">
+
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Owner</th>
+            <th>Location</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th class="text-end">Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          @for (
+            property of filteredProperties;
+            track property.id
+          ) {
+
+            <tr>
+
+              <td>
+                <strong>{{ property.title }}</strong>
+              </td>
+
+              <td>{{ property.owner }}</td>
+
+              <td>
+                <i class="bi bi-geo-alt me-1"></i>
+                {{ property.location }}
+              </td>
+
+              <td>{{ property.price }}</td>
+
+              <td>
+
+                <span
+                  class="badge"
+                  [class.bg-success]="property.status === 'Active'"
+                  [class.bg-warning]="property.status === 'Pending'"
+                  [class.bg-danger]="property.status === 'Rejected'">
+
+                  {{ property.status }}
+
+                </span>
+
+              </td>
+
+              <td class="text-end">
+
+                @if (property.status === 'Pending') {
+
+                  <button
+                    class="btn btn-sm btn-success me-1"
+                    (click)="updateStatus(property, 'Active')">
+
+                    <i class="bi bi-check-lg"></i>
+                    Approve
+
+                  </button>
+
+                  <button
+                    class="btn btn-sm btn-outline-danger"
+                    (click)="updateStatus(property, 'Rejected')">
+
+                    <i class="bi bi-x-lg"></i>
+                    Reject
+
+                  </button>
+
+                } @else {
+
+                  <button
+                    class="btn btn-sm btn-outline-secondary">
+
+                    <i class="bi bi-eye"></i>
+                    View
+
+                  </button>
+
+                }
+
+              </td>
+
+            </tr>
+
+          } @empty {
+
+            <tr>
+              <td colspan="6" class="empty-state">
+                No properties found.
+              </td>
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

@@ -104,6 +104,40 @@ export const routes: Routes = [
       .then(m => m.PropertyReviewsComponent)
 },
 
+{
+  path: 'admin',
+  children: [
+    {
+      path: '',
+      redirectTo: 'dashboard',
+      pathMatch: 'full'
+    },
+    {
+      path: 'dashboard',
+      loadComponent: () =>
+        import('./features/admin/dashboard/dashboard.component')
+          .then(m => m.DashboardComponent)
+    },
+    {
+      path: 'users',
+      loadComponent: () =>
+        import('./features/admin/users/users.component')
+          .then(m => m.UsersComponent)
+    },
+    {
+      path: 'properties',
+      loadComponent: () =>
+        import('./features/admin/properties/properties.component')
+          .then(m => m.PropertiesComponent)
+    },
+    {
+      path: 'reports',
+      loadComponent: () =>
+        import('./features/admin/reports/reports.component')
+          .then(m => m.ReportsComponent)
+    }
+  ]
+},
   {
     path: '**',
     component: NotFoundComponent
