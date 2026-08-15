@@ -3,18 +3,17 @@ import { FormsModule } from '@angular/forms';
 
 interface Conversation {
   id: number;
+  userName: string;
   propertyTitle: string;
-  otherUserName: string;
   lastMessage: string;
-  lastMessageTime: string;
+  time: string;
   unreadCount: number;
 }
 
 interface Message {
   id: number;
-  senderName: string;
   content: string;
-  sentAt: string;
+  time: string;
   isMine: boolean;
 }
 
@@ -27,20 +26,57 @@ interface Message {
 })
 export class MessagesComponent {
 
-  conversations: Conversation[] = [];
+  conversations: Conversation[] = [
+    {
+      id: 1,
+      userName: 'Abebe Kebede',
+      propertyTitle: 'Modern House in Addis Ababa',
+      lastMessage: 'Is the property still available?',
+      time: '10:30 AM',
+      unreadCount: 2
+    },
+    {
+      id: 2,
+      userName: 'Sara Ahmed',
+      propertyTitle: 'Luxury Apartment',
+      lastMessage: 'Thank you for the information.',
+      time: 'Yesterday',
+      unreadCount: 0
+    }
+  ];
 
-  selectedConversation: Conversation | null = null;
+  selectedConversation: Conversation | null = this.conversations[0];
 
-  messages: Message[] = [];
+  messages: Message[] = [
+    {
+      id: 1,
+      content: 'Hello, is this property still available?',
+      time: '10:20 AM',
+      isMine: false
+    },
+    {
+      id: 2,
+      content: 'Yes, it is still available.',
+      time: '10:22 AM',
+      isMine: true
+    },
+    {
+      id: 3,
+      content: 'Great! I would like to know more about it.',
+      time: '10:25 AM',
+      isMine: false
+    }
+  ];
 
   newMessage = '';
 
   selectConversation(conversation: Conversation): void {
     this.selectedConversation = conversation;
 
-    // Temporary UI data.
-    // This will later be replaced with the Messages API.
-    this.messages = [];
+    conversation.unreadCount = 0;
+
+    // Temporary frontend messages.
+    // Backend API will be connected later.
   }
 
   sendMessage(): void {
@@ -52,9 +88,8 @@ export class MessagesComponent {
 
     this.messages.push({
       id: Date.now(),
-      senderName: 'You',
       content,
-      sentAt: new Date().toLocaleTimeString([], {
+      time: new Date().toLocaleTimeString([], {
         hour: '2-digit',
         minute: '2-digit'
       }),

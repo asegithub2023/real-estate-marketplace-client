@@ -1,104 +1,103 @@
 <div class="messages-page">
 
+  <!-- Page Header -->
   <div class="page-header">
+
     <div>
-      <h1 class="h4 fw-bold mb-1">Messages</h1>
+      <h1 class="h4 fw-bold mb-1">
+        Messages
+      </h1>
+
       <p class="text-muted mb-0">
         Communicate with property owners and buyers.
       </p>
     </div>
+
   </div>
 
 
+  <!-- Messages Layout -->
   <div class="messages-container">
 
     <!-- Conversations -->
     <aside class="conversation-panel">
 
-      <div class="panel-header">
+      <div class="conversation-header">
+
         <h2 class="h6 fw-bold mb-0">
           Conversations
         </h2>
+
+        <span class="badge bg-primary">
+          {{ conversations.length }}
+        </span>
+
       </div>
 
-      @if (conversations.length === 0) {
 
-        <div class="empty-conversations">
+      <div class="conversation-list">
 
-          <i class="bi bi-chat-square-text"></i>
+        @for (
+          conversation of conversations;
+          track conversation.id
+        ) {
 
-          <p class="fw-semibold mt-3 mb-1">
-            No conversations
-          </p>
+          <button
+            type="button"
+            class="conversation-item"
+            [class.active]="
+              selectedConversation?.id === conversation.id
+            "
+            (click)="selectConversation(conversation)">
 
-          <small class="text-muted">
-            Your conversations will appear here.
-          </small>
+            <!-- Avatar -->
+            <div class="avatar">
+              {{ conversation.userName.charAt(0) }}
+            </div>
 
-        </div>
 
-      } @else {
+            <!-- Conversation Info -->
+            <div class="conversation-info">
 
-        <div class="conversation-list">
+              <div class="conversation-top">
 
-          @for (
-            conversation of conversations;
-            track conversation.id
-          ) {
+                <strong>
+                  {{ conversation.userName }}
+                </strong>
 
-            <button
-              type="button"
-              class="conversation-item"
-              [class.active]="selectedConversation?.id === conversation.id"
-              (click)="selectConversation(conversation)">
-
-              <div class="avatar">
-                {{ conversation.otherUserName.charAt(0).toUpperCase() }}
-              </div>
-
-              <div class="conversation-info">
-
-                <div class="d-flex justify-content-between">
-
-                  <strong>
-                    {{ conversation.otherUserName }}
-                  </strong>
-
-                  <small class="text-muted">
-                    {{ conversation.lastMessageTime }}
-                  </small>
-
-                </div>
-
-                <small class="text-muted property-title">
-                  {{ conversation.propertyTitle }}
+                <small>
+                  {{ conversation.time }}
                 </small>
 
-                <div class="d-flex justify-content-between">
+              </div>
 
-                  <p class="last-message mb-0">
-                    {{ conversation.lastMessage }}
-                  </p>
+              <small class="property-title">
+                {{ conversation.propertyTitle }}
+              </small>
 
-                  @if (conversation.unreadCount > 0) {
+              <div class="conversation-bottom">
 
-                    <span class="badge bg-primary">
-                      {{ conversation.unreadCount }}
-                    </span>
+                <span class="last-message">
+                  {{ conversation.lastMessage }}
+                </span>
 
-                  }
+                @if (conversation.unreadCount > 0) {
 
-                </div>
+                  <span class="badge bg-primary">
+                    {{ conversation.unreadCount }}
+                  </span>
+
+                }
 
               </div>
 
-            </button>
+            </div>
 
-          }
+          </button>
 
-        </div>
+        }
 
-      }
+      </div>
 
     </aside>
 
@@ -108,77 +107,63 @@
 
       @if (selectedConversation) {
 
-        <!-- Chat header -->
-        <div class="chat-header">
+        <!-- Chat Header -->
+        <header class="chat-header">
 
           <div class="avatar">
-            {{ selectedConversation.otherUserName.charAt(0).toUpperCase() }}
+            {{ selectedConversation.userName.charAt(0) }}
           </div>
 
           <div>
+
             <h2 class="h6 fw-bold mb-0">
-              {{ selectedConversation.otherUserName }}
+              {{ selectedConversation.userName }}
             </h2>
 
             <small class="text-muted">
               {{ selectedConversation.propertyTitle }}
             </small>
+
           </div>
 
-        </div>
+        </header>
 
 
         <!-- Messages -->
         <div class="chat-body">
 
-          @if (messages.length === 0) {
+          @for (message of messages; track message.id) {
 
-            <div class="empty-chat">
+            <div
+              class="message-row"
+              [class.mine]="message.isMine">
 
-              <i class="bi bi-chat-dots"></i>
+              <div class="message-bubble">
 
-              <p class="text-muted mt-3 mb-0">
-                No messages yet.
-              </p>
+                <p class="mb-1">
+                  {{ message.content }}
+                </p>
 
-            </div>
-
-          } @else {
-
-            @for (message of messages; track message.id) {
-
-              <div
-                class="message-row"
-                [class.mine]="message.isMine">
-
-                <div class="message-bubble">
-
-                  <p class="mb-1">
-                    {{ message.content }}
-                  </p>
-
-                  <small>
-                    {{ message.sentAt }}
-                  </small>
-
-                </div>
+                <small>
+                  {{ message.time }}
+                </small>
 
               </div>
 
-            }
+            </div>
 
           }
 
         </div>
 
 
-        <!-- Message input -->
-        <div class="message-input">
+        <!-- Message Input -->
+        <footer class="message-input">
 
           <input
             type="text"
             class="form-control"
-            placeholder="Type a message..."
+            placeholder="Type your message..."
             [(ngModel)]="newMessage"
             (keyup.enter)="sendMessage()">
 
@@ -187,11 +172,11 @@
             class="btn btn-primary"
             (click)="sendMessage()">
 
-            <i class="bi bi-send"></i>
+            <i class="bi bi-send-fill"></i>
 
           </button>
 
-        </div>
+        </footer>
 
       } @else {
 
@@ -204,7 +189,7 @@
           </h2>
 
           <p class="text-muted">
-            Choose a conversation to start messaging.
+            Choose a conversation to start chatting.
           </p>
 
         </div>
