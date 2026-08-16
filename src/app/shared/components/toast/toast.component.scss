@@ -1,0 +1,11 @@
+.toast {
+  min-width: 280px;
+  max-width: 400px;
+}
+
+@media (max-width: 576px) {
+  .toast {
+    min-width: auto;
+    width: calc(100vw - 2rem);
+  }
+}

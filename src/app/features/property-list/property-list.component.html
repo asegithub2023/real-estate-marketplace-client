@@ -37,13 +37,8 @@
                 <i class="bi bi-search"></i>
               </span>
 
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search properties..."
-                [(ngModel)]="search"
-                (keyup.enter)="searchProperties()"
-              />
+              <input type="text" class="form-control" placeholder="Search properties..." [(ngModel)]="search"
+                (keyup.enter)="searchProperties()" />
 
             </div>
 
@@ -51,10 +46,7 @@
 
           <div class="col-md-3 d-flex gap-2">
 
-            <button
-              type="button"
-              class="btn btn-primary flex-grow-1"
-              (click)="searchProperties()">
+            <button type="button" class="btn btn-primary flex-grow-1" (click)="searchProperties()">
 
               <i class="bi bi-search me-2"></i>
               Search
@@ -62,14 +54,11 @@
             </button>
 
             @if (search) {
-              <button
-                type="button"
-                class="btn btn-outline-secondary"
-                (click)="clearSearch()">
+            <button type="button" class="btn btn-outline-secondary" (click)="clearSearch()">
 
-                <i class="bi bi-x-lg"></i>
+              <i class="bi bi-x-lg"></i>
 
-              </button>
+            </button>
             }
 
           </div>
@@ -81,259 +70,235 @@
     </div>
 
 
+
+
     <!-- Loading -->
     @if (loading) {
 
-      <div class="text-center py-5">
-
-        <div
-          class="spinner-border text-primary"
-          role="status">
-        </div>
-
-        <p class="text-muted mt-3">
-          Loading properties...
-        </p>
-
-      </div>
+    <app-loading message="Loading properties..." />
 
     }
 
 
-    <!-- Error -->
+    <!-- Error State -->
     @else if (error) {
 
-      <div class="alert alert-danger text-center">
+    <div class="state-container text-center py-5">
 
-        <i class="bi bi-exclamation-circle me-2"></i>
-
-        {{ error }}
-
-        <button
-          type="button"
-          class="btn btn-sm btn-danger ms-3"
-          (click)="loadProperties()">
-
-          Try Again
-
-        </button>
-
+      <div class="state-icon error-icon">
+        <i class="bi bi-exclamation-triangle"></i>
       </div>
+
+      <h4 class="mt-3">
+        Something went wrong
+      </h4>
+
+      <p class="text-muted">
+        {{ error }}
+      </p>
+
+      <button type="button" class="btn btn-primary" (click)="loadProperties()">
+
+        <i class="bi bi-arrow-clockwise me-2"></i>
+        Try Again
+
+      </button>
+
+    </div>
 
     }
 
-
-    <!-- Empty -->
+    <!-- Empty State -->
     @else if (properties.length === 0) {
 
-      <div class="empty-state text-center py-5">
+    <div class="state-container text-center py-5">
 
-        <i class="bi bi-house-x display-4 text-muted"></i>
-
-        <h4 class="mt-3">
-          No properties found
-        </h4>
-
-        <p class="text-muted">
-          Try another search term.
-        </p>
-
-        @if (search) {
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            (click)="clearSearch()">
-
-            Clear Search
-
-          </button>
-        }
-
+      <div class="state-icon">
+        <i class="bi bi-house-x"></i>
       </div>
 
+      <h4 class="mt-3">
+        No properties found
+      </h4>
+
+      <p class="text-muted">
+        We couldn't find any properties matching your search.
+      </p>
+
+      @if (search) {
+
+      <button type="button" class="btn btn-outline-primary" (click)="clearSearch()">
+
+        <i class="bi bi-x-circle me-2"></i>
+        Clear Search
+
+      </button>
+
+      }
+
+    </div>
+
     }
+
+
+
+
 
 
     <!-- Properties -->
     @else {
 
-      <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <p class="text-muted mb-0">
-          {{ totalCount }} properties found
-        </p>
+      <p class="text-muted mb-0">
+        {{ totalCount }} properties found
+      </p>
 
-      </div>
-
-
-      <div class="row g-4">
-
-        @for (property of properties; track property.id) {
-
-          <div class="col-md-6 col-lg-4">
-
-            <div class="card property-card h-100 border-0 shadow-sm">
-
-              <!-- Image -->
-              <div class="property-image-wrapper">
-
-                <img
-                  [src]="getPropertyImage(property)"
-                  [alt]="property.title"
-                  class="property-image"
-                />
-
-                <span class="badge bg-primary property-status">
-                  {{ property.status }}
-                </span>
-
-                <button
-                  type="button"
-                  class="btn btn-light favorite-button"
-                  aria-label="Add to favorites">
-
-                  <i class="bi bi-heart"></i>
-
-                </button>
-
-              </div>
+    </div>
 
 
-              <!-- Content -->
-              <div class="card-body">
+    <div class="row g-4">
 
-                <div class="property-price">
-                  {{ property.price | number }}
-                </div>
+      @for (property of properties; track property.id) {
 
-                <h5 class="property-title">
-                  {{ property.title }}
-                </h5>
+      <div class="col-md-6 col-lg-4">
 
-                <p class="text-muted">
+        <div class="card property-card h-100 border-0 shadow-sm">
 
-                  <i class="bi bi-geo-alt me-1"></i>
+          <!-- Image -->
+          <div class="property-image-wrapper">
 
-                  {{ property.city }}, {{ property.country }}
+            <img [src]="getPropertyImage(property)" [alt]="property.title" class="property-image" />
 
-                </p>
+            <span class="badge bg-primary property-status">
+              {{ property.status }}
+            </span>
 
+            <button type="button" class="btn btn-light favorite-button" aria-label="Add to favorites">
 
-                <div class="property-details">
+              <i class="bi bi-heart"></i>
 
-                  <span>
-                    <i class="bi bi-door-open me-1"></i>
-                    {{ property.bedrooms }} Beds
-                  </span>
+            </button>
 
-                  <span>
-                    <i class="bi bi-droplet me-1"></i>
-                    {{ property.bathrooms }} Baths
-                  </span>
-
-                  <span>
-                    <i class="bi bi-rulers me-1"></i>
-                    {{ property.area }} m²
-                  </span>
-
-                </div>
-
-              </div>
+          </div>
 
 
-              <!-- Footer -->
-              <div class="card-footer bg-white border-0 p-3">
+          <!-- Content -->
+          <div class="card-body">
 
-                <button
-                  type="button"
-                  class="btn btn-outline-primary w-100">
+            <div class="property-price">
+              {{ property.price | number }}
+            </div>
 
-                  View Property
+            <h5 class="property-title">
+              {{ property.title }}
+            </h5>
 
-                  <i class="bi bi-arrow-right ms-2"></i>
+            <p class="text-muted">
 
-                </button>
+              <i class="bi bi-geo-alt me-1"></i>
 
-              </div>
+              {{ property.city }}, {{ property.country }}
+
+            </p>
+
+
+            <div class="property-details">
+
+              <span>
+                <i class="bi bi-door-open me-1"></i>
+                {{ property.bedrooms }} Beds
+              </span>
+
+              <span>
+                <i class="bi bi-droplet me-1"></i>
+                {{ property.bathrooms }} Baths
+              </span>
+
+              <span>
+                <i class="bi bi-rulers me-1"></i>
+                {{ property.area }} m²
+              </span>
 
             </div>
 
           </div>
 
-        }
+
+          <!-- Footer -->
+          <div class="card-footer bg-white border-0 p-3">
+
+            <button type="button" class="btn btn-outline-primary w-100">
+
+              View Property
+
+              <i class="bi bi-arrow-right ms-2"></i>
+
+            </button>
+
+          </div>
+
+        </div>
 
       </div>
 
-
-      <!-- Pagination -->
-      @if (totalPages > 1) {
-
-        <nav
-          class="mt-5"
-          aria-label="Property pagination">
-
-          <ul class="pagination justify-content-center">
-
-            <li
-              class="page-item"
-              [class.disabled]="page === 1">
-
-              <button
-                class="page-link"
-                type="button"
-                (click)="goToPage(page - 1)"
-                [disabled]="page === 1">
-
-                <i class="bi bi-chevron-left"></i>
-
-              </button>
-
-            </li>
-
-
-            @for (pageNumber of pages; track pageNumber) {
-
-              <li
-                class="page-item"
-                [class.active]="pageNumber === page">
-
-                <button
-                  class="page-link"
-                  type="button"
-                  (click)="goToPage(pageNumber)">
-
-                  {{ pageNumber }}
-
-                </button>
-
-              </li>
-
-            }
-
-
-            <li
-              class="page-item"
-              [class.disabled]="page === totalPages">
-
-              <button
-                class="page-link"
-                type="button"
-                (click)="goToPage(page + 1)"
-                [disabled]="page === totalPages">
-
-                <i class="bi bi-chevron-right"></i>
-
-              </button>
-
-            </li>
-
-          </ul>
-
-        </nav>
-
       }
 
+    </div>
+
+
+    <!-- Pagination -->
+    @if (totalPages > 1) {
+
+    <nav class="mt-5" aria-label="Property pagination">
+
+      <ul class="pagination justify-content-center">
+
+        <li class="page-item" [class.disabled]="page === 1">
+
+          <button class="page-link" type="button" (click)="goToPage(page - 1)" [disabled]="page === 1">
+
+            <i class="bi bi-chevron-left"></i>
+
+          </button>
+
+        </li>
+
+
+        @for (pageNumber of pages; track pageNumber) {
+
+        <li class="page-item" [class.active]="pageNumber === page">
+
+          <button class="page-link" type="button" (click)="goToPage(pageNumber)">
+
+            {{ pageNumber }}
+
+          </button>
+
+        </li>
+
+        }
+
+
+        <li class="page-item" [class.disabled]="page === totalPages">
+
+          <button class="page-link" type="button" (click)="goToPage(page + 1)" [disabled]="page === totalPages">
+
+            <i class="bi bi-chevron-right"></i>
+
+          </button>
+
+        </li>
+
+      </ul>
+
+    </nav>
+
     }
+
+    }
+
+    <app-toast [message]="toastMessage" [type]="toastType" [visible]="toastVisible" />
 
   </div>
 

@@ -6,14 +6,17 @@ import { PropertyService } from '../../services/property';
 import { Property } from '../../models/property';
 import { PagedRequest } from '../../models/paged-request';
 import { PagedResponse } from '../../models/paged-response';
+import { LoadingComponent } from '../../shared/components/loading/loading.component';
+import { ToastComponent } from '../../shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-property-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LoadingComponent, ToastComponent],
   templateUrl: './property-list.component.html',
   styleUrl: './property-list.component.scss'
 })
+
 export class PropertyListComponent implements OnInit {
 
   private readonly propertyService = inject(PropertyService);
@@ -30,8 +33,22 @@ export class PropertyListComponent implements OnInit {
   loading = false;
   error = '';
 
+  toastVisible = false;
+  toastMessage = '';
+  toastType: 'success' | 'error' | 'info' = 'success';
+
   ngOnInit(): void {
     this.loadProperties();
+  }
+
+  showToast(message: string, type: 'success' | 'error' | 'info' = 'success'): void {
+    this.toastMessage = message;
+    this.toastType = type;
+    this.toastVisible = true;
+
+    setTimeout(() => {
+      this.toastVisible = false;
+    }, 3000);
   }
 
   loadProperties(): void {
