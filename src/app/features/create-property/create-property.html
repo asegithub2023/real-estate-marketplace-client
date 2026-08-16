@@ -2,47 +2,107 @@
   <h1>Create Property</h1>
 
   <form [formGroup]="form" (ngSubmit)="submit()" class="property-form" novalidate>
-    <label>
-      <span>Title</span>
-      <input formControlName="title" type="text" placeholder="Property title" />
-      @if (form.controls['title'].invalid && form.controls['title'].touched) {
-      <span class="error">Title is required.</span>
+    <!-- Title -->
+    <div class="mb-3">
+      <label for="title" class="form-label fw-semibold">
+        Title
+      </label>
+      <input id="title" type="text" class="form-control" formControlName="title" placeholder="Property title"
+        [class.is-invalid]="
+          form.get('title')?.invalid &&
+          form.get('title')?.touched
+        " />
+      @if (
+      form.get('title')?.invalid &&
+      form.get('title')?.touched
+      ) {
+      <div class="invalid-feedback">
+        Title is required.
+      </div>
       }
-    </label>
+    </div>
 
-    <label>
-      <span>Description</span>
-      <textarea formControlName="description" placeholder="Property description"></textarea>
-      @if (form.controls['description'].invalid && form.controls['description'].touched) {
-      <span class="error">Description is required.</span>
+    <!-- Description -->
+    <div class="mb-3">
+      <label for="description" class="form-label fw-semibold">
+        Description
+      </label>
+      <textarea id="description" class="form-control" formControlName="description" placeholder="Property description"
+        [class.is-invalid]="
+          form.get('description')?.invalid &&
+          form.get('description')?.touched
+        "></textarea>
+      @if (
+      form.get('description')?.invalid &&
+      form.get('description')?.touched
+      ) {
+      <div class="invalid-feedback">
+        Description is required.
+      </div>
       }
-    </label>
+    </div>
 
-    <label>
-      <span>Price</span>
-      <input formControlName="price" type="number" min="1" />
-      @if (form.controls['price'].invalid && form.controls['price'].touched) {
-      <span class="error">Price is required and must be greater than zero.</span>
+    <!-- Price -->
+    <div class="mb-3">
+      <label for="price" class="form-label fw-semibold">
+        Price
+      </label>
+      <input id="price" type="number" class="form-control" formControlName="price" min="1" [class.is-invalid]="
+          form.get('price')?.invalid &&
+          form.get('price')?.touched
+        " />
+      @if (
+      form.get('price')?.invalid &&
+      form.get('price')?.touched
+      ) {
+      <div class="invalid-feedback">
+        Price is required and must be greater than zero.
+      </div>
       }
-    </label>
+    </div>
 
-    <label>
-      <span>Address</span>
-      <input formControlName="address" type="text" placeholder="Property address" />
-      @if (form.controls['address'].invalid && form.controls['address'].touched) {
-      <span class="error">Address is required.</span>
+    <!-- Address -->
+    <div class="mb-3">
+      <label for="address" class="form-label fw-semibold">
+        Address
+      </label>
+      <input id="address" type="text" class="form-control" formControlName="address" placeholder="Property address"
+        [class.is-invalid]="
+          form.get('address')?.invalid &&
+          form.get('address')?.touched
+        " />
+      @if (
+      form.get('address')?.invalid &&
+      form.get('address')?.touched
+      ) {
+      <div class="invalid-feedback">
+        Address is required.
+      </div>
       }
-    </label>
+    </div>
 
-    <button type="submit" [disabled]="isSubmitting">
-      {{ isSubmitting ? 'Saving...' : 'Create Property' }}
+    <!-- Submit -->
+    <button type="submit" class="btn btn-primary w-100 py-2" [disabled]="form.invalid || isSubmitting">
+      @if (isSubmitting) {
+      <span class="spinner-border spinner-border-sm me-2"></span>
+      Saving...
+      } @else {
+      <i class="bi bi-plus-circle me-2"></i>
+      Create Property
+      }
     </button>
   </form>
 
   @if (successMessage) {
-  <div class="message success">{{ successMessage }}</div>
+  <div class="alert alert-success mt-3">
+    <i class="bi bi-check-circle me-2"></i>
+    {{ successMessage }}
+  </div>
   }
   @if (errorMessage) {
-  <div class="message error">{{ errorMessage }}</div>
+  <div class="alert alert-danger mt-3">
+    <i class="bi bi-exclamation-circle me-2"></i>
+    {{ errorMessage }}
+  </div>
   }
 </div>

@@ -158,20 +158,35 @@
   font-size: 1.3rem;
 }
 
-@media (max-width: 768px) {
-
+@media (max-width: 991px) {
   .admin-dashboard {
     padding: 1rem;
   }
 
   .dashboard-header {
-    align-items: flex-start;
+    flex-wrap: wrap;
     gap: 1rem;
+  }
+
+  .table {
+    min-width: 650px;
+  }
+}
+
+@media (max-width: 576px) {
+  .dashboard-header {
     flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dashboard-header .btn {
+    width: 100%;
   }
 
   .card-header-custom {
-    gap: 1rem;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
   .report-card {
@@ -179,4 +194,7 @@
     flex-direction: column;
   }
 
+  .report-card .btn {
+    width: 100%;
+  }
 }

@@ -1,0 +1,27 @@
+@if (visible) {
+  <div
+    class="toast-container position-fixed top-0 end-0 p-3"
+    style="z-index: 1080;"
+  >
+    <div
+      class="toast show border-0 shadow"
+      [class.bg-success]="type === 'success'"
+      [class.bg-danger]="type === 'error'"
+      [class.bg-primary]="type === 'info'"
+    >
+      <div class="toast-body text-white d-flex align-items-center">
+
+        @if (type === 'success') {
+          <i class="bi bi-check-circle me-2"></i>
+        } @else if (type === 'error') {
+          <i class="bi bi-exclamation-circle me-2"></i>
+        } @else {
+          <i class="bi bi-info-circle me-2"></i>
+        }
+
+        <span>{{ message }}</span>
+
+      </div>
+    </div>
+  </div>
+}

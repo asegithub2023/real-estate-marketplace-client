@@ -51,17 +51,22 @@
   color: #6c757d;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .admin-page {
     padding: 1rem;
   }
 
+  .table {
+    min-width: 900px;
+  }
+}
+
+@media (max-width: 576px) {
   .toolbar {
     align-items: stretch;
-    flex-direction: column;
   }
 
-  .search-box {
+  .toolbar .search-box {
     max-width: none;
   }
 }
