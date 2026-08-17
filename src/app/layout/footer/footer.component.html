@@ -1,44 +1,147 @@
-<footer class="bg-dark text-white mt-auto">
+<footer class="realestate-footer text-white mt-auto">
   <div class="container py-5">
 
     <div class="row g-4">
 
-      <div class="col-md-4">
+      <!-- Brand -->
+      <div class="col-lg-4 col-md-6">
         <h5 class="fw-bold">
           <i class="bi bi-buildings me-2"></i>
           RealEstate
         </h5>
 
         <p class="text-white-50 mb-0">
-          Find your perfect property with ease.
+          Find homes and spaces with confidence.
         </p>
       </div>
 
-      <div class="col-md-4">
-        <h6 class="fw-bold">Quick Links</h6>
+
+      <!-- Explore -->
+      <div class="col-lg-2 col-md-6">
+        <h6 class="fw-bold">Explore</h6>
 
         <ul class="list-unstyled">
           <li>
-            <a routerLink="/" class="footer-link">Home</a>
+            <a routerLink="/properties" class="footer-link">
+              Browse Listings
+            </a>
           </li>
 
           <li>
             <a routerLink="/properties" class="footer-link">
-              Properties
+              Map Search
+            </a>
+          </li>
+
+          <li>
+            <a routerLink="/dashboard/favorites" class="footer-link">
+              Saved Homes
+            </a>
+          </li>
+
+          <li>
+            <a routerLink="/properties" class="footer-link">
+              Recently Added
             </a>
           </li>
         </ul>
       </div>
 
-      <div class="col-md-4">
-        <h6 class="fw-bold">Contact</h6>
+
+      <!-- Company -->
+      <div class="col-lg-2 col-md-6">
+        <h6 class="fw-bold">Company</h6>
+
+        <ul class="list-unstyled">
+          <li>
+            <a href="#" class="footer-link">About</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Services</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Contact</a>
+          </li>
+        </ul>
+      </div>
+
+
+      <!-- Support -->
+      <div class="col-lg-2 col-md-6">
+        <h6 class="fw-bold">Support</h6>
+
+        <ul class="list-unstyled">
+          <li>
+            <a href="#" class="footer-link">Help Center</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Safety</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Terms of Service</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Privacy Policy</a>
+          </li>
+        </ul>
+      </div>
+
+
+      <!-- Follow & Contact -->
+      <div class="col-lg-2 col-md-6">
+        <h6 class="fw-bold">Follow</h6>
+
+        <ul class="list-unstyled">
+          <li>
+            <a
+              href="https://www.instagram.com/aseaau21"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-link"
+            >
+              <i class="bi bi-instagram me-2"></i>
+              Instagram
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="https://www.tiktok.com/@aseaau21"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-link"
+            >
+              <i class="bi bi-tiktok me-2"></i>
+              TikTok
+            </a>
+          </li>
+
+          <li>
+  <a
+    href="https://t.me/aseaau"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="footer-link"
+  >
+    <i class="bi bi-telegram me-2"></i>
+    Telegram
+  </a>
+</li>
+        </ul>
+
+        <h6 class="fw-bold mt-4">Contact</h6>
 
         <p class="text-white-50 mb-1">
           <i class="bi bi-envelope me-2"></i>
           aseaau21@gmail.com
         </p>
 
-        <p class="text-white-50">
+        <p class="text-white-50 mb-0">
           <i class="bi bi-telephone me-2"></i>
           +251966202818
         </p>
@@ -46,11 +149,12 @@
 
     </div>
 
-    <hr class="border-secondary">
+  <hr class="footer-divider">
 
     <div class="text-center text-white-50">
-      © 2026 RealEstate Marketplace. All rights reserved.
+    © {{ currentYear }} RealEstate Marketplace. All rights reserved.
     </div>
 
   </div>
 </footer>
+
