@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { FooterComponent } from './layout/footer/footer.component';
@@ -15,4 +15,10 @@ import { FooterComponent } from './layout/footer/footer.component';
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor(private router: Router) {}
+
+  showFooter(): boolean {
+    return !['/login', '/register'].includes(this.router.url);
+  }
+}
