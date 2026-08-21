@@ -1,3 +1,9 @@
+export interface PropertyImage {
+  id: number;
+  imageUrl: string;
+  propertyId: number;
+}
+
 export interface Property {
   id: number;
   title: string;
@@ -13,6 +19,11 @@ export interface Property {
   status: string;
   ownerId: number;
   ownerName: string;
-  images?: any[];
+  images?: PropertyImage[];
   features?: any[];
+}
+
+export interface ApiResponse<T> {
+  data: T;
+  links: any[];
 }

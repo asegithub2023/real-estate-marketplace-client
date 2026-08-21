@@ -1,6 +1,7 @@
 
 import { Routes } from '@angular/router';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,7 @@ export const routes: Routes = [
 
   {
     path: 'properties/create',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/create-property/create-property').then(
         (m) => m.CreatePropertyComponent
@@ -57,6 +59,7 @@ export const routes: Routes = [
 
 {
   path: 'dashboard',
+  canActivate: [authGuard],
   loadComponent: () =>
     import('./features/user/user-dashboard/user-dashboard.component')
       .then(m => m.UserDashboardComponent)
@@ -64,6 +67,7 @@ export const routes: Routes = [
 
 {
   path: 'dashboard/profile',
+  canActivate: [authGuard],
   loadComponent: () =>
     import('./features/user/profile/profile.component')
       .then(m => m.ProfileComponent)
@@ -71,6 +75,7 @@ export const routes: Routes = [
 
 {
   path: 'dashboard/properties',
+  canActivate: [authGuard],
   loadComponent: () =>
     import('./features/user/my-properties/my-properties.component')
       .then(m => m.MyPropertiesComponent)
@@ -78,6 +83,7 @@ export const routes: Routes = [
 
 {
   path: 'dashboard/favorites',
+  canActivate: [authGuard],
   loadComponent: () =>
     import('./features/user/favorites/favorites.component')
       .then(m => m.FavoritesComponent)
@@ -85,6 +91,7 @@ export const routes: Routes = [
 
 {
   path: 'dashboard/notifications',
+  canActivate: [authGuard],
   loadComponent: () =>
     import('./features/user/notifications/notifications.component')
       .then(m => m.NotificationsComponent)
@@ -92,6 +99,7 @@ export const routes: Routes = [
 
 {
   path: 'dashboard/messages',
+  canActivate: [authGuard],
   loadComponent: () =>
     import('./features/user/messages/messages.component')
       .then(m => m.MessagesComponent)
@@ -138,6 +146,15 @@ export const routes: Routes = [
     }
   ]
 },
+
+{
+  path: 'properties/:id',
+  loadComponent: () =>
+    import('./features/property-details/property-details.component')
+      .then(m => m.PropertyDetailsComponent)
+},
+
+
   {
     path: '**',
     component: NotFoundComponent

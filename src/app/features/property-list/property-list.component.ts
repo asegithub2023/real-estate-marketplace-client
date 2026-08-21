@@ -1,34 +1,47 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { PropertyService } from '../../services/property';
 import { Property } from '../../models/property';
 import { PagedRequest } from '../../models/paged-request';
 import { PagedResponse } from '../../models/paged-response';
 import { LoadingComponent } from '../../shared/components/loading/loading.component';
 import { ToastComponent } from '../../shared/components/toast/toast.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-property-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, LoadingComponent, ToastComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    LoadingComponent,
+    ToastComponent,
+    RouterLink
+  ],
   templateUrl: './property-list.component.html',
   styleUrl: './property-list.component.scss'
 })
-
 export class PropertyListComponent implements OnInit {
 
   private readonly propertyService = inject(PropertyService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   properties: Property[] = [];
 
-  search = '';
-  page = 1;
-  pageSize = 6;
+search = '';
+minPrice?: number;
+maxPrice?: number;
+minBedrooms?: number;
+minBathrooms?: number;
+city = '';
+sortBy = 'newest';
 
-  totalCount = 0;
-  totalPages = 0;
+page = 1;
+pageSize = 6;
+
+totalCount = 0;
+totalPages = 0;
 
   loading = false;
   error = '';
@@ -41,7 +54,10 @@ export class PropertyListComponent implements OnInit {
     this.loadProperties();
   }
 
-  showToast(message: string, type: 'success' | 'error' | 'info' = 'success'): void {
+  showToast(
+    message: string,
+    type: 'success' | 'error' | 'info' = 'success'
+  ): void {
     this.toastMessage = message;
     this.toastType = type;
     this.toastVisible = true;
@@ -52,43 +68,55 @@ export class PropertyListComponent implements OnInit {
   }
 
   loadProperties(): void {
-    this.loading = true;
-    this.error = '';
+  this.loading = true;
+  this.error = '';
 
-    const request: PagedRequest = {
-      page: this.page,
-      pageSize: this.pageSize,
-      search: this.search || undefined,
-      orderBy: 'id',
-      descending: true
-    };
+  const request: PagedRequest = {
+    page: this.page,
+    pageSize: this.pageSize,
+    search: this.search || undefined,
+    minPrice: this.minPrice,
+    maxPrice: this.maxPrice,
+    minBedrooms: this.minBedrooms,
+    minBathrooms: this.minBathrooms,
+    city: this.city || undefined,
+    sortBy: this.sortBy
+  };
 
-    this.propertyService.getProperties(request).subscribe({
-      next: (response: PagedResponse<Property>) => {
-        this.properties = response.items;
-        this.totalCount = response.totalCount;
-        this.totalPages = response.totalPages;
-        this.page = response.page;
+  this.propertyService.getProperties(request).subscribe({
+    next: (response: PagedResponse<Property>) => {
+      this.properties = response.data;
+      this.totalCount = response.meta.totalCount;
+      this.totalPages = response.meta.totalPages;
+      this.page = response.meta.page;
 
-        this.loading = false;
-      },
-      error: () => {
-        this.loading = false;
-        this.error = 'Unable to load properties. Please try again.';
-      }
-    });
-  }
+      this.loading = false;
+      this.cdr.markForCheck();
+    },
 
+    error: () => {
+      this.loading = false;
+      this.error = 'Unable to load properties. Please try again.';
+      this.cdr.markForCheck();
+    }
+  });
+}
   searchProperties(): void {
     this.page = 1;
     this.loadProperties();
   }
 
-  clearSearch(): void {
-    this.search = '';
-    this.page = 1;
-    this.loadProperties();
-  }
+  clearFilters(): void {
+  this.search = '';
+  this.minPrice = undefined;
+  this.maxPrice = undefined;
+  this.minBedrooms = undefined;
+  this.minBathrooms = undefined;
+  this.city = '';
+  this.sortBy = 'newest';
+  this.page = 1;
+  this.loadProperties();
+}
 
   goToPage(page: number): void {
     if (page < 1 || page > this.totalPages || page === this.page) {

@@ -182,7 +182,7 @@
               <div class="card-footer bg-white border-0 p-3">
 
                 <a
-                  routerLink="/properties"
+                 [routerLink]="['/properties', property.id]"
                   class="btn btn-outline-primary w-100">
 
                   View Property

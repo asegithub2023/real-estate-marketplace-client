@@ -1,24 +1,31 @@
 <div class="page">
+
   <h1>Create Property</h1>
 
-  <form [formGroup]="form" (ngSubmit)="submit()" class="property-form" novalidate>
+  <form
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+    class="property-form"
+    novalidate>
+
     <!-- Title -->
     <div class="mb-3">
       <label for="title" class="form-label fw-semibold">
         Title
       </label>
-      <input id="title" type="text" class="form-control" formControlName="title" placeholder="Property title"
-        [class.is-invalid]="
-          form.get('title')?.invalid &&
-          form.get('title')?.touched
-        " />
-      @if (
-      form.get('title')?.invalid &&
-      form.get('title')?.touched
-      ) {
-      <div class="invalid-feedback">
-        Title is required.
-      </div>
+
+      <input
+        id="title"
+        type="text"
+        class="form-control"
+        formControlName="title"
+        placeholder="Property title"
+        [class.is-invalid]="form.get('title')?.invalid && form.get('title')?.touched" />
+
+      @if (form.get('title')?.invalid && form.get('title')?.touched) {
+        <div class="invalid-feedback">
+          Title is required.
+        </div>
       }
     </div>
 
@@ -27,18 +34,19 @@
       <label for="description" class="form-label fw-semibold">
         Description
       </label>
-      <textarea id="description" class="form-control" formControlName="description" placeholder="Property description"
-        [class.is-invalid]="
-          form.get('description')?.invalid &&
-          form.get('description')?.touched
-        "></textarea>
-      @if (
-      form.get('description')?.invalid &&
-      form.get('description')?.touched
-      ) {
-      <div class="invalid-feedback">
-        Description is required.
-      </div>
+
+      <textarea
+        id="description"
+        class="form-control"
+        formControlName="description"
+        placeholder="Property description"
+        [class.is-invalid]="form.get('description')?.invalid && form.get('description')?.touched">
+      </textarea>
+
+      @if (form.get('description')?.invalid && form.get('description')?.touched) {
+        <div class="invalid-feedback">
+          Description is required.
+        </div>
       }
     </div>
 
@@ -47,18 +55,27 @@
       <label for="price" class="form-label fw-semibold">
         Price
       </label>
-      <input id="price" type="number" class="form-control" formControlName="price" min="1" [class.is-invalid]="
-          form.get('price')?.invalid &&
-          form.get('price')?.touched
-        " />
-      @if (
-      form.get('price')?.invalid &&
-      form.get('price')?.touched
-      ) {
-      <div class="invalid-feedback">
-        Price is required and must be greater than zero.
-      </div>
-      }
+
+      <input
+        id="price"
+        type="number"
+        class="form-control"
+        formControlName="price"
+        min="1" />
+    </div>
+
+    <!-- City -->
+    <div class="mb-3">
+      <label for="city" class="form-label fw-semibold">
+        City
+      </label>
+
+      <input
+        id="city"
+        type="text"
+        class="form-control"
+        formControlName="city"
+        placeholder="Addis Ababa" />
     </div>
 
     <!-- Address -->
@@ -66,43 +83,163 @@
       <label for="address" class="form-label fw-semibold">
         Address
       </label>
-      <input id="address" type="text" class="form-control" formControlName="address" placeholder="Property address"
-        [class.is-invalid]="
-          form.get('address')?.invalid &&
-          form.get('address')?.touched
-        " />
-      @if (
-      form.get('address')?.invalid &&
-      form.get('address')?.touched
-      ) {
-      <div class="invalid-feedback">
-        Address is required.
-      </div>
-      }
+
+      <input
+        id="address"
+        type="text"
+        class="form-control"
+        formControlName="address"
+        placeholder="Property address" />
     </div>
 
-    <!-- Submit -->
-    <button type="submit" class="btn btn-primary w-100 py-2" [disabled]="form.invalid || isSubmitting">
-      @if (isSubmitting) {
-      <span class="spinner-border spinner-border-sm me-2"></span>
-      Saving...
-      } @else {
-      <i class="bi bi-plus-circle me-2"></i>
-      Create Property
+    <!-- Country -->
+    <div class="mb-3">
+      <label for="country" class="form-label fw-semibold">
+        Country
+      </label>
+
+      <input
+        id="country"
+        type="text"
+        class="form-control"
+        formControlName="country"
+        placeholder="Ethiopia" />
+    </div>
+
+    <!-- Bedrooms -->
+    <div class="mb-3">
+      <label for="bedrooms" class="form-label fw-semibold">
+        Bedrooms
+      </label>
+
+      <input
+        id="bedrooms"
+        type="number"
+        class="form-control"
+        formControlName="bedrooms"
+        min="0" />
+    </div>
+
+    <!-- Bathrooms -->
+    <div class="mb-3">
+      <label for="bathrooms" class="form-label fw-semibold">
+        Bathrooms
+      </label>
+
+      <input
+        id="bathrooms"
+        type="number"
+        class="form-control"
+        formControlName="bathrooms"
+        min="0" />
+    </div>
+
+    <!-- Rooms -->
+    <div class="mb-3">
+      <label for="rooms" class="form-label fw-semibold">
+        Rooms
+      </label>
+
+      <input
+        id="rooms"
+        type="number"
+        class="form-control"
+        formControlName="rooms"
+        min="0" />
+    </div>
+
+    <!-- Area -->
+    <div class="mb-3">
+      <label for="area" class="form-label fw-semibold">
+        Area (m²)
+      </label>
+
+      <input
+        id="area"
+        type="number"
+        class="form-control"
+        formControlName="area"
+        min="0" />
+    </div>
+
+    <!-- Status -->
+    <div class="mb-3">
+      <label for="status" class="form-label fw-semibold">
+        Status
+      </label>
+
+      <select
+        id="status"
+        class="form-select"
+        formControlName="status">
+
+        <option [ngValue]="0">Available</option>
+        <option [ngValue]="1">Sold</option>
+        <option [ngValue]="2">Rented</option>
+
+      </select>
+    </div>
+
+    <!-- Images -->
+    <div class="mb-4">
+
+      <label for="images" class="form-label fw-semibold">
+        Property Images
+      </label>
+
+      <input
+        id="images"
+        type="file"
+        class="form-control"
+        accept="image/jpeg,image/png,image/webp"
+        multiple
+        (change)="onImagesSelected($event)" />
+
+      <small class="text-muted">
+        At least one image is required.
+      </small>
+
+      @if (selectedImages.length > 0) {
+        <div class="mt-2 text-success">
+          <i class="bi bi-check-circle me-1"></i>
+          {{ selectedImages.length }} image(s) selected.
+        </div>
       }
+
+    </div>
+
+    <!-- Error -->
+    @if (errorMessage) {
+      <div class="alert alert-danger">
+        <i class="bi bi-exclamation-circle me-2"></i>
+        {{ errorMessage }}
+      </div>
+    }
+
+    <!-- Success -->
+    @if (successMessage) {
+      <div class="alert alert-success">
+        <i class="bi bi-check-circle me-2"></i>
+        {{ successMessage }}
+      </div>
+    }
+
+    <!-- Submit -->
+    <button
+      type="submit"
+      class="btn btn-primary w-100 py-2"
+      [disabled]="form.invalid || isSubmitting">
+
+      @if (isSubmitting) {
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        Creating Property...
+      } @else {
+        <i class="bi bi-plus-circle me-2"></i>
+        Create Property
+      }
+
     </button>
+
   </form>
 
-  @if (successMessage) {
-  <div class="alert alert-success mt-3">
-    <i class="bi bi-check-circle me-2"></i>
-    {{ successMessage }}
-  </div>
-  }
-  @if (errorMessage) {
-  <div class="alert alert-danger mt-3">
-    <i class="bi bi-exclamation-circle me-2"></i>
-    {{ errorMessage }}
-  </div>
-  }
 </div>

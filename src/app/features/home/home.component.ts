@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -19,6 +19,7 @@ import { PagedRequest } from '../../models/paged-request';
 export class HomeComponent implements OnInit {
 
   private readonly propertyService = inject(PropertyService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   featuredProperties: Property[] = [];
 
@@ -40,11 +41,20 @@ export class HomeComponent implements OnInit {
 
     this.propertyService.getProperties(request).subscribe({
       next: (response) => {
-        this.featuredProperties = response.items;
+        const pagedResponse = response as any;
+        const items = Array.isArray(pagedResponse.items)
+          ? pagedResponse.items
+          : Array.isArray(pagedResponse.data)
+            ? pagedResponse.data
+            : [];
+
+        this.featuredProperties = items as Property[];
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: () => {
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }

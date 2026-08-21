@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
-import { CreatePropertyRequest } from '../models/create-property-request';
 import { PagedRequest } from '../models/paged-request';
 import { PagedResponse } from '../models/paged-response';
-import { Property } from '../models/property';
+import { ApiResponse, Property } from '../models/property';
 
 @Injectable({
   providedIn: 'root'
@@ -17,20 +17,70 @@ export class PropertyService {
   constructor(private readonly http: HttpClient) {}
 
   getProperties(request: PagedRequest): Observable<PagedResponse<Property>> {
-    return this.http.get<PagedResponse<Property>>(`${this.apiUrl}/search`, { params: this.buildParams(request) });
+    return this.http.get<PagedResponse<Property>>(
+      `${this.apiUrl}/search`,
+      { params: this.buildParams(request) }
+    );
   }
 
-  createProperty(request: CreatePropertyRequest): Observable<any> {
-    return this.http.post<any>(this.apiUrl, request);
+  getPropertyById(id: number): Observable<Property> {
+    return this.http
+      .get<ApiResponse<Property>>(`${this.apiUrl}/${id}`)
+      .pipe(
+        map(response => response.data)
+      );
   }
+createProperty(formData: FormData): Observable<any> {
+  return this.http.post<any>(this.apiUrl, formData);
+}
 
   private buildParams(request: PagedRequest): any {
-    const params: any = {};
-    if (request.page !== undefined) params['page'] = request.page;
-    if (request.pageSize !== undefined) params['pageSize'] = request.pageSize;
-    if (request.search) params['search'] = request.search;
-    if (request.orderBy) params['orderBy'] = request.orderBy;
-    if (request.descending !== undefined) params['descending'] = request.descending;
-    return params;
+  const params: any = {};
+
+  if (request.page !== undefined) {
+    params['page'] = request.page;
   }
+
+  if (request.pageSize !== undefined) {
+    params['pageSize'] = request.pageSize;
+  }
+
+  if (request.search) {
+    params['search'] = request.search;
+  }
+
+  if (request.orderBy) {
+    params['orderBy'] = request.orderBy;
+  }
+
+  if (request.descending !== undefined) {
+    params['descending'] = request.descending;
+  }
+
+  if (request.minPrice !== undefined) {
+    params['minPrice'] = request.minPrice;
+  }
+
+  if (request.maxPrice !== undefined) {
+    params['maxPrice'] = request.maxPrice;
+  }
+
+  if (request.minBedrooms !== undefined) {
+    params['minBedrooms'] = request.minBedrooms;
+  }
+
+  if (request.minBathrooms !== undefined) {
+    params['minBathrooms'] = request.minBathrooms;
+  }
+
+  if (request.city) {
+    params['city'] = request.city;
+  }
+
+  if (request.sortBy) {
+    params['sortBy'] = request.sortBy;
+  }
+
+  return params;
+}
 }

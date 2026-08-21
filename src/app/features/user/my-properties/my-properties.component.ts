@@ -39,7 +39,7 @@ export class MyPropertiesComponent implements OnInit {
 
     this.propertyService.getProperties(request).subscribe({
       next: (response) => {
-        this.properties = response.items;
+        this.properties = response.data;
         this.isLoading = false;
       },
       error: () => {

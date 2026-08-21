@@ -18,7 +18,6 @@ export class AuthService {
   private readonly http = inject(HttpClient);
 
   private readonly apiUrl = `${environment.apiUrl}/auth`;
-
   private readonly tokenKey = 'access_token';
 
   login(request: LoginRequest): Observable<AuthResponse> {

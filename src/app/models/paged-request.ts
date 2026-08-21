@@ -4,4 +4,10 @@ export interface PagedRequest {
   search?: string;
   orderBy?: string;
   descending?: boolean;
+  minPrice?: number;
+  maxPrice?: number;
+  minBedrooms?: number;
+  minBathrooms?: number;
+  city?: string;
+  sortBy?: string;
 }

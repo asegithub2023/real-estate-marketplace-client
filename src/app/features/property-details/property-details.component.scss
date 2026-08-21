@@ -1,0 +1,37 @@
+.property-image-wrapper {
+  height: 500px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f8f9fa;
+}
+
+.property-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+}
+
+.detail-box i {
+  font-size: 1.4rem;
+  color: var(--bs-primary);
+  margin-bottom: 0.5rem;
+}
+
+.detail-box strong {
+  font-size: 1.1rem;
+}
+
+.detail-box span {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
