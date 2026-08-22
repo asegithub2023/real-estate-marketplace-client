@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { DashboardHeaderComponent } from '../components/dashboard-header/dashboard-header.component';
@@ -22,6 +22,7 @@ import {
 export class UserDashboardComponent implements OnInit {
 
   private readonly dashboardService = inject(UserDashboardService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   stats: DashboardStats = {
     totalProperties: 0,
@@ -34,6 +35,7 @@ export class UserDashboardComponent implements OnInit {
     this.dashboardService.getDashboardStats().subscribe({
       next: (stats) => {
         this.stats = stats;
+        this.cdr.markForCheck();
       }
     });
   }

@@ -18,7 +18,9 @@ export class AuthService {
   private readonly http = inject(HttpClient);
 
   private readonly apiUrl = `${environment.apiUrl}/auth`;
+
   private readonly tokenKey = 'access_token';
+  private readonly userIdKey = 'userId';
 
   login(request: LoginRequest): Observable<AuthResponse> {
     return this.http
@@ -26,6 +28,7 @@ export class AuthService {
       .pipe(
         tap(response => {
           localStorage.setItem(this.tokenKey, response.token);
+          localStorage.setItem(this.userIdKey, response.userId.toString());
         })
       );
   }
@@ -36,6 +39,7 @@ export class AuthService {
       .pipe(
         tap(response => {
           localStorage.setItem(this.tokenKey, response.token);
+          localStorage.setItem(this.userIdKey, response.userId.toString());
         })
       );
   }
@@ -60,10 +64,16 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.userIdKey);
   }
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
+  }
+
+  getCurrentUserId(): number | null {
+    const id = localStorage.getItem(this.userIdKey);
+    return id ? parseInt(id, 10) : null;
   }
 
   isAuthenticated(): boolean {

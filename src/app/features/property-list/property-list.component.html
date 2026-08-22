@@ -216,11 +216,18 @@
               {{ property.status }}
             </span>
 
-            <button type="button" class="btn btn-light favorite-button" aria-label="Add to favorites">
+<button
+  type="button"
+  class="btn btn-light favorite-button"
+  [attr.aria-label]="isFavorite(property.id) ? 'Remove from favorites' : 'Add to favorites'"
+  (click)="toggleFavorite(property, $event)">
 
-              <i class="bi bi-heart"></i>
+  <i class="bi"
+    [class.bi-heart-fill]="isFavorite(property.id)"
+    [class.bi-heart]="!isFavorite(property.id)"
+    [class.text-danger]="isFavorite(property.id)"></i>
 
-            </button>
+</button>
 
           </div>
 

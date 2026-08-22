@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { Observable, forkJoin, map } from 'rxjs';
+
+import { FavoriteService } from '../../../services/favorite.service';
 
 export interface DashboardStats {
   totalProperties: number;
@@ -13,12 +15,18 @@ export interface DashboardStats {
 })
 export class UserDashboardService {
 
+  private readonly favoriteService = inject(FavoriteService);
+
   getDashboardStats(): Observable<DashboardStats> {
-    return of({
-      totalProperties: 0,
-      activeProperties: 0,
-      favorites: 0,
-      unreadNotifications: 0
-    });
+    return forkJoin({
+      favorites: this.favoriteService.getFavorites()
+    }).pipe(
+      map(({ favorites }) => ({
+        totalProperties: 0,
+        activeProperties: 0,
+        favorites: favorites.length,
+        unreadNotifications: 0
+      }))
+    );
   }
 }

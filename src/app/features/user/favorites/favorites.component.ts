@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { Property } from '../../../models/property';
+import { Favorite } from '../../../models/favorite';
+import { FavoriteService } from '../../../services/favorite.service';
 
 @Component({
   selector: 'app-favorites',
@@ -10,16 +11,44 @@ import { Property } from '../../../models/property';
   templateUrl: './favorites.component.html',
   styleUrl: './favorites.component.scss'
 })
-export class FavoritesComponent {
+export class FavoritesComponent implements OnInit {
 
-  favorites: Property[] = [];
+  private readonly favoriteService = inject(FavoriteService);
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  favorites: Favorite[] = [];
 
   isLoading = false;
   errorMessage = '';
 
+  ngOnInit(): void {
+    this.loadFavorites();
+  }
+
+  loadFavorites(): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.favoriteService.getFavorites().subscribe({
+      next: (favorites) => {
+        this.favorites = favorites;
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.isLoading = false;
+        this.errorMessage = 'Unable to load favorites. Please try again.';
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
   removeFavorite(propertyId: number): void {
-    this.favorites = this.favorites.filter(
-      property => property.id !== propertyId
-    );
+    this.favoriteService.removeFavorite(propertyId).subscribe({
+      next: () => {
+        this.favorites = this.favorites.filter(f => f.propertyId !== propertyId);
+        this.cdr.markForCheck();
+      }
+    });
   }
 }

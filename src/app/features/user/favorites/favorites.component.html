@@ -13,8 +13,9 @@
       </p>
     </div>
 
-    <a
-      routerLink="/properties"
+    
+    <a 
+     routerLink="/properties"
       class="btn btn-outline-primary">
 
       <i class="bi bi-search me-2"></i>
@@ -96,7 +97,7 @@
 
     <div class="row g-4">
 
-      @for (property of favorites; track property.id) {
+      @for (favorite of favorites; track favorite.id) {
 
         <div class="col-12 col-md-6 col-xl-4">
 
@@ -104,11 +105,11 @@
 
             <div class="property-image">
 
-              @if (property.images && property.images.length > 0) {
+              @if (favorite.propertyImageUrl) {
 
                 <img
-                  [src]="property.images[0]"
-                  [alt]="property.title">
+                  [src]="favorite.propertyImageUrl"
+                  [alt]="favorite.propertyTitle">
 
               } @else {
 
@@ -121,7 +122,7 @@
               <button
                 type="button"
                 class="favorite-button"
-                (click)="removeFavorite(property.id)"
+                (click)="removeFavorite(favorite.propertyId)"
                 aria-label="Remove from favorites">
 
                 <i class="bi bi-heart-fill"></i>
@@ -134,35 +135,35 @@
             <div class="property-content">
 
               <h2 class="h6 fw-bold mb-2">
-                {{ property.title }}
+                {{ favorite.propertyTitle }}
               </h2>
 
               <p class="text-muted small mb-2">
 
                 <i class="bi bi-geo-alt me-1"></i>
-                {{ property.city }}, {{ property.country }}
+                {{ favorite.propertyCity }}, {{ favorite.propertyCountry }}
 
               </p>
 
               <h3 class="h5 fw-bold text-primary mb-3">
-                {{ property.price }}
+                {{ favorite.propertyPrice }}
               </h3>
 
               <div class="property-details">
 
                 <span>
                   <i class="bi bi-door-open me-1"></i>
-                  {{ property.bedrooms }} Beds
+                  {{ favorite.propertyBedrooms }} Beds
                 </span>
 
                 <span>
                   <i class="bi bi-droplet me-1"></i>
-                  {{ property.bathrooms }} Baths
+                  {{ favorite.propertyBathrooms }} Baths
                 </span>
 
                 <span>
                   <i class="bi bi-aspect-ratio me-1"></i>
-                  {{ property.area }} m²
+                  {{ favorite.propertyArea }} m²
                 </span>
 
               </div>
@@ -170,7 +171,7 @@
               <div class="property-actions">
 
                 <a
-                  [routerLink]="['/properties', property.id]"
+                  [routerLink]="['/properties', favorite.propertyId]"
                   class="btn btn-primary btn-sm">
 
                   <i class="bi bi-eye me-1"></i>
@@ -181,7 +182,7 @@
                 <button
                   type="button"
                   class="btn btn-outline-danger btn-sm"
-                  (click)="removeFavorite(property.id)">
+                  (click)="removeFavorite(favorite.propertyId)">
 
                   <i class="bi bi-heartbreak me-1"></i>
                   Remove

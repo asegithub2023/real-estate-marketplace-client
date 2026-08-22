@@ -75,27 +75,16 @@
 
         <!-- Favorites -->
         <div class="col-12 col-sm-6 col-xl-3">
-
-          <div class="stat-card">
-
-            <div class="stat-icon favorites-icon">
-              <i class="bi bi-heart"></i>
-            </div>
-
-            <div>
-              <p class="text-muted mb-1">
-                Favorites
-              </p>
-
-              <h3 class="fw-bold mb-0">
-                {{ stats.favorites }}
-              </h3>
-            </div>
-
-          </div>
-
-        </div>
-
+  <a routerLink="/dashboard/favorites" class="stat-card text-decoration-none text-reset">
+    <div class="stat-icon favorites-icon">
+      <i class="bi bi-heart"></i>
+    </div>
+    <div>
+      <p class="text-muted mb-1">Favorites</p>
+      <h3 class="fw-bold mb-0">{{ stats.favorites }}</h3>
+    </div>
+  </a>
+</div>
 
         <!-- Notifications -->
         <div class="col-12 col-sm-6 col-xl-3">
