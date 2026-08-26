@@ -26,7 +26,7 @@
 
     @for (stat of stats; track stat.title) {
 
-      <div class="col-12 col-sm-6 col-xl-3">
+      <div class="col-12 col-sm-6 col-xl-4">
 
         <div class="stat-card">
 
@@ -130,8 +130,9 @@
 
                     <span
                       class="badge"
-                      [class.bg-success]="property.status === 'Active'"
-                      [class.bg-warning]="property.status === 'Pending'">
+                      [class.bg-success]="property.variant === 'success'"
+                      [class.bg-warning]="property.variant === 'warning'"
+                      [class.bg-danger]="property.variant === 'danger'">
 
                       {{ property.status }}
 

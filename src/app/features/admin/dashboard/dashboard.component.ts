@@ -1,5 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { forkJoin } from 'rxjs';
+
+import { AuthService } from '../../../services/auth.service';
+import { PropertyService } from '../../../services/property';
+import { getPropertyStatusLabel, getPropertyStatusVariant } from '../../../shared/utils/property-status';
 
 interface StatCard {
   title: string;
@@ -8,18 +13,20 @@ interface StatCard {
   description: string;
 }
 
-interface Property {
+interface RecentProperty {
   title: string;
   location: string;
   price: string;
   status: string;
+  variant: 'success' | 'warning' | 'danger';
 }
 
-interface User {
+interface RecentUser {
   name: string;
   email: string;
   role: string;
 }
+
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
@@ -27,72 +34,60 @@ interface User {
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
+export class DashboardComponent implements OnInit {
 
-export class DashboardComponent {
+  private readonly authService = inject(AuthService);
+  private readonly propertyService = inject(PropertyService);
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  isLoading = false;
 
   stats: StatCard[] = [
-    {
-      title: 'Total Users',
-      value: '1,248',
-      icon: 'bi-people',
-      description: '+12% this month'
-    },
-    {
-      title: 'Properties',
-      value: '856',
-      icon: 'bi-buildings',
-      description: '+8% this month'
-    },
-    {
-      title: 'Pending Reports',
-      value: '24',
-      icon: 'bi-flag',
-      description: 'Requires attention'
-    },
-    {
-      title: 'Active Listings',
-      value: '692',
-      icon: 'bi-check-circle',
-      description: 'Currently active'
-    }
+    { title: 'Total Users', value: '—', icon: 'bi-people', description: '' },
+    { title: 'Properties', value: '—', icon: 'bi-buildings', description: '' },
+    { title: 'Active Listings', value: '—', icon: 'bi-check-circle', description: 'Currently active' }
   ];
 
-  recentProperties: Property[] = [
-    {
-      title: 'Modern Family House',
-      location: 'Addis Ababa',
-      price: '$120,000',
-      status: 'Active'
-    },
-    {
-      title: 'Luxury Apartment',
-      location: 'Bole',
-      price: '$85,000',
-      status: 'Pending'
-    },
-    {
-      title: 'Commercial Building',
-      location: 'Kazanchis',
-      price: '$250,000',
-      status: 'Active'
-    }
-  ];
+  recentProperties: RecentProperty[] = [];
+  recentUsers: RecentUser[] = [];
 
-  recentUsers: User[] = [
-    {
-      name: 'Abebe Kebede',
-      email: 'abebe@example.com',
-      role: 'Buyer'
-    },
-    {
-      name: 'Sara Ahmed',
-      email: 'sara@example.com',
-      role: 'Seller'
-    },
-    {
-      name: 'John Doe',
-      email: 'john@example.com',
-      role: 'Buyer'
-    }
-  ];
+  ngOnInit(): void {
+    this.isLoading = true;
+
+    forkJoin({
+      users: this.authService.getAllUsers(),
+      properties: this.propertyService.getAllProperties()
+    }).subscribe({
+      next: ({ users, properties }) => {
+        const activeCount = properties.filter(p => Number(p.status) >= 2 && Number(p.status) !== 3).length;
+
+        this.stats = [
+          { title: 'Total Users', value: users.length.toString(), icon: 'bi-people', description: 'Registered accounts' },
+          { title: 'Properties', value: properties.length.toString(), icon: 'bi-buildings', description: 'Listed on the platform' },
+          { title: 'Active Listings', value: activeCount.toString(), icon: 'bi-check-circle', description: 'Approved, available, sold or rented' }
+        ];
+
+        this.recentProperties = properties.slice(0, 3).map(p => ({
+          title: p.title,
+          location: p.city,
+          price: `$${p.price.toLocaleString()}`,
+          status: getPropertyStatusLabel(p.status),
+          variant: getPropertyStatusVariant(p.status)
+        }));
+
+        this.recentUsers = users.slice(0, 3).map(u => ({
+          name: u.fullName,
+          email: u.email,
+          role: u.role
+        }));
+
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      }
+    });
+  }
 }

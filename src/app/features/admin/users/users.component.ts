@@ -1,14 +1,8 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-  status: string;
-  joinedDate: string;
-}
+import { AuthService } from '../../../services/auth.service';
+import { UserSummary } from '../../../models/user-summary';
 
 @Component({
   selector: 'app-admin-users',
@@ -17,38 +11,35 @@ interface User {
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit {
+
+  private readonly authService = inject(AuthService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   searchTerm = '';
+  isLoading = false;
+  errorMessage = '';
 
-  users: User[] = [
-    {
-      id: 1,
-      name: 'Abebe Kebede',
-      email: 'abebe@example.com',
-      role: 'Buyer',
-      status: 'Active',
-      joinedDate: 'Aug 10, 2026'
-    },
-    {
-      id: 2,
-      name: 'Sara Ahmed',
-      email: 'sara@example.com',
-      role: 'Seller',
-      status: 'Active',
-      joinedDate: 'Aug 8, 2026'
-    },
-    {
-      id: 3,
-      name: 'John Doe',
-      email: 'john@example.com',
-      role: 'Buyer',
-      status: 'Inactive',
-      joinedDate: 'Aug 5, 2026'
-    }
-  ];
+  users: UserSummary[] = [];
 
-  get filteredUsers(): User[] {
+  ngOnInit(): void {
+    this.isLoading = true;
+
+    this.authService.getAllUsers().subscribe({
+      next: (users) => {
+        this.users = users;
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.errorMessage = 'Unable to load users.';
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  get filteredUsers(): UserSummary[] {
     const search = this.searchTerm.toLowerCase().trim();
 
     if (!search) {
@@ -56,14 +47,8 @@ export class UsersComponent {
     }
 
     return this.users.filter(user =>
-      user.name.toLowerCase().includes(search) ||
+      user.fullName.toLowerCase().includes(search) ||
       user.email.toLowerCase().includes(search)
     );
-  }
-
-  toggleStatus(user: User): void {
-    user.status = user.status === 'Active'
-      ? 'Inactive'
-      : 'Active';
   }
 }

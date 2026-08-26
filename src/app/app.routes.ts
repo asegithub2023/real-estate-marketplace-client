@@ -2,6 +2,7 @@
 import { Routes } from '@angular/router';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -114,7 +115,9 @@ export const routes: Routes = [
 
 {
   path: 'admin',
+  canActivate: [adminGuard],
   children: [
+    
     {
       path: '',
       redirectTo: 'dashboard',

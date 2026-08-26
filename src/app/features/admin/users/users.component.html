@@ -9,6 +9,12 @@
     </div>
   </div>
 
+  @if (errorMessage) {
+    <div class="alert alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+  }
+
   <div class="admin-card">
 
     <div class="toolbar">
@@ -37,78 +43,55 @@
           <tr>
             <th>User</th>
             <th>Role</th>
-            <th>Status</th>
-            <th>Joined</th>
-            <th class="text-end">Action</th>
           </tr>
         </thead>
 
         <tbody>
 
-          @for (user of filteredUsers; track user.id) {
+          @if (isLoading) {
 
             <tr>
-
-              <td>
-                <div class="user-cell">
-
-                  <div class="avatar">
-                    {{ user.name.charAt(0) }}
-                  </div>
-
-                  <div>
-                    <strong>{{ user.name }}</strong>
-                    <small class="text-muted d-block">
-                      {{ user.email }}
-                    </small>
-                  </div>
-
-                </div>
-              </td>
-
-              <td>{{ user.role }}</td>
-
-              <td>
-                <span
-                  class="badge"
-                  [class.bg-success]="user.status === 'Active'"
-                  [class.bg-secondary]="user.status === 'Inactive'">
-
-                  {{ user.status }}
-
-                </span>
-              </td>
-
-              <td>{{ user.joinedDate }}</td>
-
-              <td class="text-end">
-
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-secondary"
-                  (click)="toggleStatus(user)">
-
-                  <i
-                    class="bi"
-                    [class.bi-person-dash]="user.status === 'Active'"
-                    [class.bi-person-check]="user.status === 'Inactive'">
-                  </i>
-
-                  {{ user.status === 'Active' ? 'Deactivate' : 'Activate' }}
-
-                </button>
-
-              </td>
-
-            </tr>
-
-          } @empty {
-
-            <tr>
-              <td colspan="5" class="empty-state">
-                No users found.
+              <td colspan="2" class="empty-state">
+                Loading users...
               </td>
             </tr>
+
+          } @else {
+
+            @for (user of filteredUsers; track user.id) {
+
+              <tr>
+
+                <td>
+                  <div class="user-cell">
+
+                    <div class="avatar">
+                      {{ user.fullName.charAt(0) }}
+                    </div>
+
+                    <div>
+                      <strong>{{ user.fullName }}</strong>
+                      <small class="text-muted d-block">
+                        {{ user.email }}
+                      </small>
+                    </div>
+
+                  </div>
+                </td>
+
+                <td>{{ user.role }}</td>
+
+              </tr>
+
+            } @empty {
+
+              <tr>
+                <td colspan="2" class="empty-state">
+                  No users found.
+                </td>
+              </tr>
+
+            }
 
           }
 

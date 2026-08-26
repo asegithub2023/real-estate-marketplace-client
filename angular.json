@@ -21,6 +21,7 @@
       "architect": {
         "build": {
           "builder": "@angular/build:application",
+
           "options": {
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
@@ -32,10 +33,13 @@
               }
             ],
 
-            "styles": [
+           "styles": [
   "node_modules/bootstrap/dist/css/bootstrap.min.css",
   "node_modules/bootstrap-icons/font/bootstrap-icons.css",
   "src/styles.scss"
+],
+"scripts": [
+  "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
 ]
           },
           "configurations": {

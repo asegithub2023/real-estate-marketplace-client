@@ -42,51 +42,42 @@
         </li>
 
       </ul>
-<div class="d-flex gap-2">
 
-  @if (!isAuthenticated) {
+      @if (isAuthenticated) {
 
-    <a
-      routerLink="/login"
-      class="btn btn-outline-primary">
-      Login
-    </a>
+        <div class="d-flex gap-2">
+          <a
+            [routerLink]="dashboardLink"
+            class="btn btn-outline-primary">
+            {{ dashboardLabel }}
+          </a>
 
-    <a
-      routerLink="/register"
-      class="btn btn-primary">
-      Register
-    </a>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="logout()">
+            Logout
+          </button>
+        </div>
 
-  } @else {
+      } @else {
 
-    @if (isAdmin) {
+        <div class="d-flex gap-2">
+          <a
+            routerLink="/login"
+            class="btn btn-outline-primary">
+            Login
+          </a>
 
-      <a
-        routerLink="/admin/dashboard"
-        class="btn btn-warning">
-        Admin Dashboard
-      </a>
+          <a
+            routerLink="/register"
+            class="btn btn-primary">
+            Register
+          </a>
+        </div>
 
-    } @else {
+      }
 
-      <a
-        routerLink="/dashboard"
-        class="btn btn-success">
-        User Dashboard
-      </a>
-
-    }
-
-    <button
-      class="btn btn-danger"
-      (click)="logout()">
-      Logout
-    </button>
-
-  }
-
-</div>
     </div>
   </div>
 </nav>

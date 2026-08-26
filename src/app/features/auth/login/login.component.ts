@@ -73,14 +73,17 @@ export class LoginComponent {
       .subscribe({
 
         next: () => {
-          this.loading = false;
-          this.showToast('Login successful! Redirecting...', 'success');
+  this.loading = false;
+  this.showToast('Login successful! Redirecting...', 'success');
 
-          // Give the toast a moment to actually be seen before we navigate away.
-          setTimeout(() => {
-            this.router.navigate(['/dashboard']);
-          }, 800);
-        },
+  const destination = this.authService.isAdmin()
+    ? '/admin/dashboard'
+    : '/dashboard';
+
+  setTimeout(() => {
+    this.router.navigate([destination]);
+  }, 800);
+},
 
         error: (error) => {
           this.loading = false;

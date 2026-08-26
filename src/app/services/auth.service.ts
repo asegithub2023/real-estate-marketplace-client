@@ -9,6 +9,7 @@ import { RegisterRequest } from '../models/register-request';
 import { AuthResponse } from '../models/auth-response';
 import { ForgotPasswordRequest } from '../models/forgot-password-request';
 import { ResetPasswordRequest } from '../models/reset-password-request';
+import { UserSummary } from '../models/user-summary';
 
 @Injectable({
   providedIn: 'root'
@@ -27,11 +28,7 @@ export class AuthService {
     return this.http
       .post<AuthResponse>(`${this.apiUrl}/login`, request)
       .pipe(
-        tap(response => {
-  localStorage.setItem(this.tokenKey, response.token);
-  localStorage.setItem(this.userIdKey, response.userId.toString());
-  localStorage.setItem(this.roleKey, response.role);
-})
+        tap(response => this.persistSession(response))
       );
   }
 
@@ -39,11 +36,7 @@ export class AuthService {
     return this.http
       .post<AuthResponse>(`${this.apiUrl}/register`, request)
       .pipe(
-        tap(response => {
-  localStorage.setItem(this.tokenKey, response.token);
-  localStorage.setItem(this.userIdKey, response.userId.toString());
-  localStorage.setItem(this.roleKey, response.role);
-})
+        tap(response => this.persistSession(response))
       );
   }
 
@@ -65,11 +58,16 @@ export class AuthService {
     );
   }
 
+  /** Admin-only: list every registered user. */
+  getAllUsers(): Observable<UserSummary[]> {
+    return this.http.get<UserSummary[]>(`${this.apiUrl}/users`);
+  }
+
   logout(): void {
-  localStorage.removeItem(this.tokenKey);
-  localStorage.removeItem(this.userIdKey);
-  localStorage.removeItem(this.roleKey);
-}
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.userIdKey);
+    localStorage.removeItem(this.roleKey);
+  }
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
@@ -80,11 +78,21 @@ export class AuthService {
     return id ? parseInt(id, 10) : null;
   }
 
+  getCurrentUserRole(): string | null {
+    return localStorage.getItem(this.roleKey);
+  }
+
+  isAdmin(): boolean {
+    return this.getCurrentUserRole() === 'Admin';
+  }
+
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
-getRole(): string | null {
-  return localStorage.getItem(this.roleKey);
-}
 
+  private persistSession(response: AuthResponse): void {
+    localStorage.setItem(this.tokenKey, response.token);
+    localStorage.setItem(this.userIdKey, response.userId.toString());
+    localStorage.setItem(this.roleKey, response.role);
+  }
 }
