@@ -30,57 +30,63 @@ export class PropertyService {
         map(response => response.data)
       );
   }
-createProperty(formData: FormData): Observable<any> {
-  return this.http.post<any>(this.apiUrl, formData);
-}
+
+  /** Properties owned by a specific user - backend returns a plain array, not paged. */
+  getPropertiesByOwner(ownerId: number): Observable<Property[]> {
+    return this.http.get<Property[]>(`${this.apiUrl}/owner/${ownerId}`);
+  }
+
+  createProperty(formData: FormData): Observable<any> {
+    return this.http.post<any>(this.apiUrl, formData);
+  }
 
   private buildParams(request: PagedRequest): any {
-  const params: any = {};
+    const params: any = {};
 
-  if (request.page !== undefined) {
-    params['page'] = request.page;
+    if (request.page !== undefined) {
+      params['page'] = request.page;
+    }
+
+    if (request.pageSize !== undefined) {
+      params['pageSize'] = request.pageSize;
+    }
+
+    if (request.search) {
+      params['search'] = request.search;
+    }
+
+    if (request.orderBy) {
+      params['orderBy'] = request.orderBy;
+    }
+
+    if (request.descending !== undefined) {
+      params['descending'] = request.descending;
+    }
+
+    if (request.minPrice !== undefined) {
+      params['minPrice'] = request.minPrice;
+    }
+
+    if (request.maxPrice !== undefined) {
+      params['maxPrice'] = request.maxPrice;
+    }
+
+    if (request.minBedrooms !== undefined) {
+      params['minBedrooms'] = request.minBedrooms;
+    }
+
+    if (request.minBathrooms !== undefined) {
+      params['minBathrooms'] = request.minBathrooms;
+    }
+
+    if (request.city) {
+      params['city'] = request.city;
+    }
+
+    if (request.sortBy) {
+      params['sortBy'] = request.sortBy;
+    }
+
+    return params;
   }
-
-  if (request.pageSize !== undefined) {
-    params['pageSize'] = request.pageSize;
-  }
-
-  if (request.search) {
-    params['search'] = request.search;
-  }
-
-  if (request.orderBy) {
-    params['orderBy'] = request.orderBy;
-  }
-
-  if (request.descending !== undefined) {
-    params['descending'] = request.descending;
-  }
-
-  if (request.minPrice !== undefined) {
-    params['minPrice'] = request.minPrice;
-  }
-
-  if (request.maxPrice !== undefined) {
-    params['maxPrice'] = request.maxPrice;
-  }
-
-  if (request.minBedrooms !== undefined) {
-    params['minBedrooms'] = request.minBedrooms;
-  }
-
-  if (request.minBathrooms !== undefined) {
-    params['minBathrooms'] = request.minBathrooms;
-  }
-
-  if (request.city) {
-    params['city'] = request.city;
-  }
-
-  if (request.sortBy) {
-    params['sortBy'] = request.sortBy;
-  }
-
-  return params;
-}
 }

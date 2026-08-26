@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -26,6 +26,8 @@ export class CreatePropertyComponent {
   isSubmitting = false;
   successMessage = '';
   errorMessage = '';
+
+  private readonly cdr = inject(ChangeDetectorRef);
 
   constructor(
     private readonly fb: FormBuilder,
@@ -65,6 +67,7 @@ export class CreatePropertyComponent {
 
     if (this.selectedImages.length === 0) {
       this.errorMessage = 'At least one image is required.';
+      this.cdr.markForCheck();
       return;
     }
 
@@ -96,14 +99,15 @@ export class CreatePropertyComponent {
     });
 
     this.propertyService.createProperty(formData).subscribe({
-    next: () => {
-  this.isSubmitting = false;
-  this.successMessage = 'Property created successfully!';
+      next: () => {
+        this.isSubmitting = false;
+        this.successMessage = 'Property created successfully!';
+        this.cdr.markForCheck();
 
-  setTimeout(() => {
-    this.router.navigate(['/']);
-  }, 1500);
-},
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 1500);
+      },
       error: (error) => {
         console.error('Create property error:', error);
 
@@ -111,6 +115,8 @@ export class CreatePropertyComponent {
         this.errorMessage =
           error?.error?.message ||
           'Unable to create property. Please try again.';
+
+        this.cdr.markForCheck();
       }
     });
   }

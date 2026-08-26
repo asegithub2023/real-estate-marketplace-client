@@ -1,10 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { PropertyService } from '../../../services/property';
+import { AuthService } from '../../../services/auth.service';
 import { Property } from '../../../models/property';
-import { PagedRequest } from '../../../models/paged-request';
 
 @Component({
   selector: 'app-my-properties',
@@ -16,6 +16,8 @@ import { PagedRequest } from '../../../models/paged-request';
 export class MyPropertiesComponent implements OnInit {
 
   private readonly propertyService = inject(PropertyService);
+  private readonly authService = inject(AuthService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   properties: Property[] = [];
 
@@ -27,24 +29,26 @@ export class MyPropertiesComponent implements OnInit {
   }
 
   private loadProperties(): void {
+    const ownerId = this.authService.getCurrentUserId();
+
+    if (!ownerId) {
+      this.errorMessage = 'You must be logged in to view your properties.';
+      return;
+    }
+
     this.isLoading = true;
     this.errorMessage = '';
 
-    const request: PagedRequest = {
-      page: 1,
-      pageSize: 20,
-      orderBy: 'id',
-      descending: true
-    };
-
-    this.propertyService.getProperties(request).subscribe({
-      next: (response) => {
-        this.properties = response.data;
+    this.propertyService.getPropertiesByOwner(ownerId).subscribe({
+      next: (properties) => {
+        this.properties = properties;
         this.isLoading = false;
+        this.cdr.markForCheck();
       },
       error: () => {
         this.errorMessage = 'Unable to load your properties.';
         this.isLoading = false;
+        this.cdr.markForCheck();
       }
     });
   }

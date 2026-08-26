@@ -6,7 +6,12 @@
 
       <div class="col-12 col-sm-10 col-md-7 col-lg-5">
 
-        <div class="login-card">
+        <app-toast
+          [visible]="toastVisible"
+          [message]="toastMessage"
+          [type]="toastType" />
+       
+       <div class="login-card">
 
           <!-- Header -->
           <div class="text-center mb-4">

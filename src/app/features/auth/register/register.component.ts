@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -8,6 +8,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../../services/auth.service';
+import { ToastComponent } from '../../../shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,8 @@ import { AuthService } from '../../../services/auth.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    ToastComponent
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -25,9 +27,14 @@ export class RegisterComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   loading = false;
   errorMessage = '';
+
+  toastVisible = false;
+  toastMessage = '';
+  toastType: 'success' | 'error' | 'info' = 'success';
 
   registerForm = this.fb.nonNullable.group({
     fullName: [
@@ -86,6 +93,7 @@ export class RegisterComponent {
 
     if (password !== confirmPassword) {
       this.errorMessage = 'Passwords do not match.';
+      this.cdr.markForCheck();
       return;
     }
 
@@ -102,8 +110,12 @@ export class RegisterComponent {
 
       next: () => {
         this.loading = false;
+        this.showToast('Account created successfully! Redirecting...', 'success');
 
-        this.router.navigate(['/dashboard']);
+        // Give the toast a moment to actually be seen before we navigate away.
+        setTimeout(() => {
+          this.router.navigate(['/dashboard']);
+        }, 800);
       },
 
       error: (error) => {
@@ -112,8 +124,25 @@ export class RegisterComponent {
         this.errorMessage =
           error?.error?.message ??
           'Registration failed. Please try again.';
+
+        this.cdr.markForCheck();
       }
 
     });
+  }
+
+  private showToast(
+    message: string,
+    type: 'success' | 'error' | 'info' = 'success'
+  ): void {
+    this.toastMessage = message;
+    this.toastType = type;
+    this.toastVisible = true;
+    this.cdr.markForCheck();
+
+    setTimeout(() => {
+      this.toastVisible = false;
+      this.cdr.markForCheck();
+    }, 3000);
   }
 }

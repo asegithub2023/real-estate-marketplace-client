@@ -21,15 +21,17 @@ export class AuthService {
 
   private readonly tokenKey = 'access_token';
   private readonly userIdKey = 'userId';
+  private readonly roleKey = 'role';
 
   login(request: LoginRequest): Observable<AuthResponse> {
     return this.http
       .post<AuthResponse>(`${this.apiUrl}/login`, request)
       .pipe(
         tap(response => {
-          localStorage.setItem(this.tokenKey, response.token);
-          localStorage.setItem(this.userIdKey, response.userId.toString());
-        })
+  localStorage.setItem(this.tokenKey, response.token);
+  localStorage.setItem(this.userIdKey, response.userId.toString());
+  localStorage.setItem(this.roleKey, response.role);
+})
       );
   }
 
@@ -38,9 +40,10 @@ export class AuthService {
       .post<AuthResponse>(`${this.apiUrl}/register`, request)
       .pipe(
         tap(response => {
-          localStorage.setItem(this.tokenKey, response.token);
-          localStorage.setItem(this.userIdKey, response.userId.toString());
-        })
+  localStorage.setItem(this.tokenKey, response.token);
+  localStorage.setItem(this.userIdKey, response.userId.toString());
+  localStorage.setItem(this.roleKey, response.role);
+})
       );
   }
 
@@ -63,9 +66,10 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem(this.userIdKey);
-  }
+  localStorage.removeItem(this.tokenKey);
+  localStorage.removeItem(this.userIdKey);
+  localStorage.removeItem(this.roleKey);
+}
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
@@ -79,4 +83,8 @@ export class AuthService {
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
+getRole(): string | null {
+  return localStorage.getItem(this.roleKey);
+}
+
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
@@ -13,6 +13,7 @@ import {
 } from '@angular/router';
 
 import { AuthService } from '../../../services/auth.service';
+import { ToastComponent } from '../../../shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ import { AuthService } from '../../../services/auth.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    ToastComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -30,9 +32,14 @@ export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   loading = false;
   errorMessage = '';
+
+  toastVisible = false;
+  toastMessage = '';
+  toastType: 'success' | 'error' | 'info' = 'success';
 
   loginForm = this.fb.nonNullable.group({
     email: [
@@ -67,8 +74,12 @@ export class LoginComponent {
 
         next: () => {
           this.loading = false;
+          this.showToast('Login successful! Redirecting...', 'success');
 
-          this.router.navigate(['/dashboard']);
+          // Give the toast a moment to actually be seen before we navigate away.
+          setTimeout(() => {
+            this.router.navigate(['/dashboard']);
+          }, 800);
         },
 
         error: (error) => {
@@ -77,8 +88,25 @@ export class LoginComponent {
           this.errorMessage =
             error?.error?.message ??
             'Invalid email or password. Please try again.';
+
+          this.cdr.markForCheck();
         }
 
       });
+  }
+
+  private showToast(
+    message: string,
+    type: 'success' | 'error' | 'info' = 'success'
+  ): void {
+    this.toastMessage = message;
+    this.toastType = type;
+    this.toastVisible = true;
+    this.cdr.markForCheck();
+
+    setTimeout(() => {
+      this.toastVisible = false;
+      this.cdr.markForCheck();
+    }, 3000);
   }
 }

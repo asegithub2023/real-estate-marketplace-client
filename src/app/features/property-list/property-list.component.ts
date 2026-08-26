@@ -85,7 +85,7 @@ export class PropertyListComponent implements OnInit {
     });
   }
 
-  showToast(
+    showToast(
     message: string,
     type: 'success' | 'error' | 'info' = 'success'
   ): void {
@@ -95,6 +95,7 @@ export class PropertyListComponent implements OnInit {
 
     setTimeout(() => {
       this.toastVisible = false;
+      this.cdr.markForCheck();
     }, 3000);
   }
 

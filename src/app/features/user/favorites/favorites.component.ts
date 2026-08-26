@@ -20,6 +20,7 @@ export class FavoritesComponent implements OnInit {
 
   isLoading = false;
   errorMessage = '';
+  successMessage = '';
 
   ngOnInit(): void {
     this.loadFavorites();
@@ -38,6 +39,12 @@ export class FavoritesComponent implements OnInit {
       error: () => {
         this.isLoading = false;
         this.errorMessage = 'Unable to load favorites. Please try again.';
+
+        setTimeout(() => {
+          this.errorMessage = '';
+          this.cdr.markForCheck();
+        }, 3000);
+
         this.cdr.markForCheck();
       }
     });
@@ -46,7 +53,28 @@ export class FavoritesComponent implements OnInit {
   removeFavorite(propertyId: number): void {
     this.favoriteService.removeFavorite(propertyId).subscribe({
       next: () => {
-        this.favorites = this.favorites.filter(f => f.propertyId !== propertyId);
+
+        this.favorites = this.favorites.filter(
+          f => f.propertyId !== propertyId
+        );
+
+        this.successMessage = 'Favorite removed successfully.';
+
+        setTimeout(() => {
+          this.successMessage = '';
+          this.cdr.markForCheck();
+        }, 3000);
+
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.errorMessage = 'Unable to remove favorite. Please try again.';
+
+        setTimeout(() => {
+          this.errorMessage = '';
+          this.cdr.markForCheck();
+        }, 3000);
+
         this.cdr.markForCheck();
       }
     });
