@@ -40,6 +40,8 @@ export class PropertyListComponent implements OnInit {
   minBedrooms?: number;
   minBathrooms?: number;
   city = '';
+  propertyType?: number;
+  listingType?: number;
   sortBy = 'newest';
 
   page = 1;
@@ -115,6 +117,8 @@ export class PropertyListComponent implements OnInit {
       minBedrooms: this.minBedrooms,
       minBathrooms: this.minBathrooms,
       city: this.city || undefined,
+      propertyType: this.propertyType,
+      listingType: this.listingType,
       sortBy: this.sortBy
     };
 
@@ -149,6 +153,8 @@ export class PropertyListComponent implements OnInit {
     this.minBedrooms = undefined;
     this.minBathrooms = undefined;
     this.city = '';
+    this.propertyType = undefined;
+    this.listingType = undefined;
     this.sortBy = 'newest';
     this.page = 1;
     this.loadProperties();

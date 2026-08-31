@@ -9,5 +9,7 @@ export interface PagedRequest {
   minBedrooms?: number;
   minBathrooms?: number;
   city?: string;
+  propertyType?: number;
+  listingType?: number;
   sortBy?: string;
 }

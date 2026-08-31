@@ -91,6 +91,14 @@ createProperty(formData: FormData): Observable<any> {
     params['city'] = request.city;
   }
 
+  if (request.propertyType !== undefined) {
+    params['propertyType'] = request.propertyType;
+  }
+
+  if (request.listingType !== undefined) {
+    params['listingType'] = request.listingType;
+  }
+
   if (request.sortBy) {
     params['sortBy'] = request.sortBy;
   }

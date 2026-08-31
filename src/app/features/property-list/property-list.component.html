@@ -53,7 +53,7 @@
 
             </button>
 
-            @if (search || minPrice || maxPrice || minBedrooms || minBathrooms || city || sortBy !== 'newest') {
+            @if (search || minPrice || maxPrice || minBedrooms || minBathrooms || city || propertyType !== undefined || listingType !== undefined || sortBy !== 'newest') {
 
             <button type="button" class="btn btn-outline-secondary" (click)="clearFilters()">
               <i class="bi bi-x-lg"></i>
@@ -100,6 +100,29 @@
           <div class="col-md-2">
             <input type="text" class="form-control" placeholder="City" [(ngModel)]="city"
               (keyup.enter)="searchProperties()" />
+          </div>
+
+          <div class="col-md-2">
+            <select class="form-select" [(ngModel)]="propertyType" (change)="searchProperties()">
+              <option [ngValue]="undefined">Type: Any</option>
+              <option [ngValue]="0">House</option>
+              <option [ngValue]="1">Apartment</option>
+              <option [ngValue]="2">Villa</option>
+              <option [ngValue]="3">Condominium</option>
+              <option [ngValue]="4">Office</option>
+              <option [ngValue]="5">Shop</option>
+              <option [ngValue]="6">Warehouse</option>
+              <option [ngValue]="7">Land</option>
+            </select>
+          </div>
+
+          <div class="col-md-2">
+            <select class="form-select" [(ngModel)]="listingType" (change)="searchProperties()">
+              <option [ngValue]="undefined">Listing: Any</option>
+              <option [ngValue]="0">For Sale</option>
+              <option [ngValue]="1">For Rent</option>
+              <option [ngValue]="2">Short Stay</option>
+            </select>
           </div>
 
           <div class="col-md-2">
@@ -171,7 +194,7 @@
         We couldn't find any properties matching your search.
       </p>
 
-      @if (search || minPrice || maxPrice || minBedrooms || minBathrooms || city || sortBy !== 'newest') {
+      @if (search || minPrice || maxPrice || minBedrooms || minBathrooms || city || propertyType !== undefined || listingType !== undefined || sortBy !== 'newest') {
 
       <button type="button" class="btn btn-outline-primary" (click)="clearFilters()">
 
