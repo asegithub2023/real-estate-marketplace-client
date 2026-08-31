@@ -13,7 +13,7 @@
       </p>
     </div>
 
-    <a
+      <a
       routerLink="/properties/create"
       class="btn btn-primary">
 
@@ -75,7 +75,7 @@
         You haven't added any properties yet.
       </p>
 
-      <a
+       <a
         routerLink="/properties/create"
         class="btn btn-primary">
 
@@ -129,9 +129,17 @@
                   {{ property.title }}
                 </h2>
 
-                <span class="badge bg-success-subtle text-success">
-                  {{ property.status }}
-                </span>
+                <select
+                  class="form-select form-select-sm w-auto"
+                  [disabled]="updatingPropertyId === property.id"
+                  [value]="property.status"
+                  (change)="onStatusChange(property, $event)">
+
+                  @for (option of ownerStatusOptions; track option.value) {
+                    <option [value]="option.value">{{ option.label }}</option>
+                  }
+
+                </select>
 
               </div>
 
@@ -140,6 +148,10 @@
                 <i class="bi bi-geo-alt me-1"></i>
                 {{ property.city }}, {{ property.country }}
 
+              </p>
+
+              <p class="text-muted small mb-2">
+                {{ getPropertyTypeLabel(property.propertyType) }} &middot; For {{ getListingTypeLabel(property.listingType) }}
               </p>
 
               <h3 class="h5 fw-bold text-primary mb-3">
@@ -167,7 +179,7 @@
 
               <div class="property-actions">
 
-                <a
+                  <a
                   [routerLink]="['/properties', property.id]"
                   class="btn btn-outline-primary btn-sm">
 
@@ -176,7 +188,7 @@
 
                 </a>
 
-                <a
+                 <a
                   [routerLink]="['/properties', property.id, 'edit']"
                   class="btn btn-outline-secondary btn-sm">
 
@@ -185,7 +197,57 @@
 
                 </a>
 
+                @if (confirmingDeleteId !== property.id) {
+
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger btn-sm"
+                    (click)="askDeleteConfirmation(property.id)">
+
+                    <i class="bi bi-trash me-1"></i>
+                    Delete
+
+                  </button>
+
+                }
+
               </div>
+
+              @if (confirmingDeleteId === property.id) {
+
+                <div class="delete-confirm mt-2">
+
+                  <p class="text-danger small mb-2">
+                    Delete this property permanently? This cannot be undone.
+                  </p>
+
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm"
+                    [disabled]="deletingPropertyId === property.id"
+                    (click)="confirmDelete(property.id)">
+
+                    @if (deletingPropertyId === property.id) {
+                      <span class="spinner-border spinner-border-sm me-1"></span>
+                    }
+
+                    Yes, Delete
+
+                  </button>
+
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary btn-sm ms-2"
+                    [disabled]="deletingPropertyId === property.id"
+                    (click)="cancelDelete()">
+
+                    Cancel
+
+                  </button>
+
+                </div>
+
+              }
 
             </div>
 

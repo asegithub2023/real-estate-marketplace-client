@@ -57,6 +57,10 @@ export class PropertyService {
     return this.http.delete<Property>(`${this.apiUrl}/${id}/images/${imageId}`);
   }
 
+  deleteProperty(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
 createProperty(formData: FormData): Observable<any> {
   return this.http.post<any>(this.apiUrl, formData);
 }
