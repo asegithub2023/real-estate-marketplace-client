@@ -15,6 +15,20 @@
   </div>
 
 
+  @if (loading) {
+
+    <div class="admin-card">
+      <p class="empty-state mb-0">Loading reports...</p>
+    </div>
+
+  } @else if (error) {
+
+    <div class="admin-card">
+      <p class="empty-state text-danger mb-0">{{ error }}</p>
+    </div>
+
+  } @else {
+
   <div class="admin-card">
 
     <div class="table-responsive">
@@ -42,12 +56,12 @@
 
               <td>
                 <strong>
-                  {{ report.property }}
+                  {{ report.propertyTitle }}
                 </strong>
               </td>
 
               <td>
-                {{ report.reporter }}
+                {{ report.reporterName }}
               </td>
 
               <td>
@@ -55,18 +69,18 @@
               </td>
 
               <td>
-                {{ report.date }}
+                {{ report.createdAt | date: 'mediumDate' }}
               </td>
 
               <td>
 
                 <span
                   class="badge"
-                  [class.bg-warning]="report.status === 'Pending'"
-                  [class.bg-success]="report.status === 'Resolved'"
-                  [class.bg-secondary]="report.status === 'Dismissed'">
+                  [class.bg-warning]="report.status === ReportStatus.Pending"
+                  [class.bg-success]="report.status === ReportStatus.Reviewed"
+                  [class.bg-secondary]="report.status === ReportStatus.Dismissed">
 
-                  {{ report.status }}
+                  {{ getStatusLabel(report.status) }}
 
                 </span>
 
@@ -74,11 +88,12 @@
 
               <td class="text-end">
 
-                @if (report.status === 'Pending') {
+                @if (report.status === ReportStatus.Pending) {
 
                   <button
                     class="btn btn-sm btn-success me-1"
-                    (click)="updateStatus(report, 'Resolved')">
+                    [disabled]="updatingReportId === report.id"
+                    (click)="updateStatus(report, ReportStatus.Reviewed)">
 
                     <i class="bi bi-check-lg"></i>
                     Resolve
@@ -87,7 +102,8 @@
 
                   <button
                     class="btn btn-sm btn-outline-secondary"
-                    (click)="updateStatus(report, 'Dismissed')">
+                    [disabled]="updatingReportId === report.id"
+                    (click)="updateStatus(report, ReportStatus.Dismissed)">
 
                     <i class="bi bi-x-lg"></i>
                     Dismiss
@@ -123,5 +139,7 @@
     </div>
 
   </div>
+
+  }
 
 </div>

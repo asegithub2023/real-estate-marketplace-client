@@ -1,50 +1,78 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
-interface Report {
-  id: number;
-  property: string;
-  reporter: string;
-  reason: string;
-  date: string;
-  status: string;
-}
+import { ReportService } from '../../../services/report.service';
+import { Report, ReportStatus } from '../../../models/report';
 
 @Component({
   selector: 'app-admin-reports',
   standalone: true,
+  imports: [DatePipe],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.scss'
 })
-export class ReportsComponent {
+export class ReportsComponent implements OnInit {
 
-  reports: Report[] = [
-    {
-      id: 1,
-      property: 'Modern Family House',
-      reporter: 'Abebe Kebede',
-      reason: 'Incorrect property information',
-      date: 'Aug 14, 2026',
-      status: 'Pending'
-    },
-    {
-      id: 2,
-      property: 'Luxury Apartment',
-      reporter: 'Sara Ahmed',
-      reason: 'Suspicious listing',
-      date: 'Aug 13, 2026',
-      status: 'Pending'
-    },
-    {
-      id: 3,
-      property: 'Commercial Building',
-      reporter: 'John Doe',
-      reason: 'Duplicate listing',
-      date: 'Aug 10, 2026',
-      status: 'Resolved'
+  private readonly reportService = inject(ReportService);
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  readonly ReportStatus = ReportStatus;
+
+  reports: Report[] = [];
+
+  loading = false;
+  error = '';
+
+  // Id of the report whose status update is currently in flight, if any.
+  updatingReportId: number | null = null;
+
+  ngOnInit(): void {
+    this.loadReports();
+  }
+
+  loadReports(): void {
+    this.loading = true;
+    this.error = '';
+
+    this.reportService.getAllReports().subscribe({
+      next: (reports) => {
+        this.reports = reports;
+        this.loading = false;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.loading = false;
+        this.error = 'Unable to load reports.';
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  getStatusLabel(status: number): string {
+    switch (status) {
+      case ReportStatus.Reviewed:
+        return 'Resolved';
+      case ReportStatus.Dismissed:
+        return 'Dismissed';
+      default:
+        return 'Pending';
     }
-  ];
+  }
 
-  updateStatus(report: Report, status: string): void {
-    report.status = status;
+  updateStatus(report: Report, status: number): void {
+    this.updatingReportId = report.id;
+
+    this.reportService.updateReportStatus(report.id, status).subscribe({
+      next: (updated) => {
+        report.status = updated.status;
+        this.updatingReportId = null;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.error = 'Unable to update report status.';
+        this.updatingReportId = null;
+        this.cdr.markForCheck();
+      }
+    });
   }
 }

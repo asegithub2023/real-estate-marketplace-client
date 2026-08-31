@@ -22,7 +22,7 @@
           {{ error }}
         </p>
 
-         <a
+        <a
           routerLink="/properties"
           class="btn btn-primary">
 
@@ -39,7 +39,7 @@
     @else if (property) {
 
       <!-- Back -->
-       <a
+      <a
         routerLink="/properties"
         class="btn btn-link text-decoration-none mb-4">
 
@@ -98,7 +98,7 @@
         <!-- Details -->
         <div class="col-lg-5">
 
-                    <span class="badge bg-primary mb-3">
+          <span class="badge bg-primary mb-3">
             {{ property.status }}
           </span>
 
@@ -183,6 +183,57 @@
               <p class="text-danger mt-2 mb-0">
                 {{ contactError }}
               </p>
+            }
+
+            <button
+              type="button"
+              class="btn btn-link text-muted ps-0 mt-2 d-block"
+              (click)="toggleReportForm()">
+
+              <i class="bi bi-flag me-1"></i>
+              Report this property
+
+            </button>
+
+            @if (showReportForm) {
+
+              <div class="report-form mt-2">
+
+                <textarea
+                  class="form-control"
+                  rows="3"
+                  placeholder="Describe the issue (e.g. incorrect information, suspicious listing)..."
+                  [(ngModel)]="reportReason">
+                </textarea>
+
+                <button
+                  type="button"
+                  class="btn btn-outline-danger btn-sm mt-2"
+                  [disabled]="isSubmittingReport"
+                  (click)="submitReport()">
+
+                  @if (isSubmittingReport) {
+                    <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                  }
+
+                  Submit Report
+
+                </button>
+
+                @if (reportError) {
+                  <p class="text-danger mt-2 mb-0 small">
+                    {{ reportError }}
+                  </p>
+                }
+
+                @if (reportSuccessMessage) {
+                  <p class="text-success mt-2 mb-0 small">
+                    {{ reportSuccessMessage }}
+                  </p>
+                }
+
+              </div>
+
             }
 
           }

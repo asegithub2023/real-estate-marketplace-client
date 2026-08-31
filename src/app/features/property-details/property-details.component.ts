@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { PropertyService } from '../../services/property';
 import { ConversationService } from '../../services/conversation.service';
 import { AuthService } from '../../services/auth.service';
+import { ReportService } from '../../services/report.service';
 import { Property } from '../../models/property';
 import { LoadingComponent } from '../../shared/components/loading/loading.component';
 import { getListingTypeLabel } from '../../shared/utils/property-status';
@@ -14,6 +16,7 @@ import { getListingTypeLabel } from '../../shared/utils/property-status';
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     RouterLink,
     LoadingComponent
   ],
@@ -25,6 +28,7 @@ export class PropertyDetailsComponent implements OnInit {
   private readonly propertyService = inject(PropertyService);
   private readonly conversationService = inject(ConversationService);
   private readonly authService = inject(AuthService);
+  private readonly reportService = inject(ReportService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly cdr = inject(ChangeDetectorRef);
@@ -36,6 +40,12 @@ export class PropertyDetailsComponent implements OnInit {
 
   isStartingConversation = false;
   contactError = '';
+
+  showReportForm = false;
+  reportReason = '';
+  isSubmittingReport = false;
+  reportSuccessMessage = '';
+  reportError = '';
 
   currentImageIndex = 0;
 
@@ -136,6 +146,48 @@ export class PropertyDetailsComponent implements OnInit {
       error: () => {
         this.isStartingConversation = false;
         this.contactError = 'Unable to start conversation. Please try again.';
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  toggleReportForm(): void {
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/login'], {
+        queryParams: { returnUrl: `/properties/${this.property?.id}` }
+      });
+      return;
+    }
+
+    this.showReportForm = !this.showReportForm;
+    this.reportError = '';
+    this.reportSuccessMessage = '';
+  }
+
+  submitReport(): void {
+    if (!this.property || this.isSubmittingReport) {
+      return;
+    }
+
+    if (!this.reportReason.trim()) {
+      this.reportError = 'Please describe the issue before submitting.';
+      this.cdr.markForCheck();
+      return;
+    }
+
+    this.isSubmittingReport = true;
+    this.reportError = '';
+
+    this.reportService.createReport(this.property.id, this.reportReason.trim()).subscribe({
+      next: () => {
+        this.isSubmittingReport = false;
+        this.reportSuccessMessage = 'Thanks - your report has been submitted.';
+        this.reportReason = '';
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.isSubmittingReport = false;
+        this.reportError = 'Unable to submit report. Please try again.';
         this.cdr.markForCheck();
       }
     });
