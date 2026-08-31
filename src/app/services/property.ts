@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { PagedRequest } from '../models/paged-request';
 import { PagedResponse } from '../models/paged-response';
-import { ApiResponse, Property } from '../models/property';
+import { ApiResponse, Property, UpdatePropertyRequest } from '../models/property';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +44,19 @@ export class PropertyService {
   updatePropertyStatus(id: number, status: number): Observable<Property> {
     return this.http.put<Property>(`${this.apiUrl}/${id}`, { status });
   }
+
+  updateProperty(id: number, request: UpdatePropertyRequest): Observable<Property> {
+    return this.http.put<Property>(`${this.apiUrl}/${id}`, request);
+  }
+
+  addPropertyImages(id: number, formData: FormData): Observable<Property> {
+    return this.http.post<Property>(`${this.apiUrl}/${id}/images`, formData);
+  }
+
+  deletePropertyImage(id: number, imageId: number): Observable<Property> {
+    return this.http.delete<Property>(`${this.apiUrl}/${id}/images/${imageId}`);
+  }
+
 createProperty(formData: FormData): Observable<any> {
   return this.http.post<any>(this.apiUrl, formData);
 }

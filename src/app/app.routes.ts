@@ -151,6 +151,14 @@ export const routes: Routes = [
 },
 
 {
+  path: 'properties/:id/edit',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./features/edit-property/edit-property.component')
+      .then(m => m.EditPropertyComponent)
+},
+
+{
   path: 'properties/:id',
   loadComponent: () =>
     import('./features/property-details/property-details.component')

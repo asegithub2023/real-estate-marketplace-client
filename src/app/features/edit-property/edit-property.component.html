@@ -1,0 +1,178 @@
+<div class="edit-property-page container py-4">
+
+  <a (click)="goBack()" class="btn btn-link ps-0 mb-3" style="cursor: pointer;">
+    <i class="bi bi-arrow-left me-2"></i>
+    Back to My Properties
+  </a>
+
+  <h1 class="h4 fw-bold mb-4">Edit Property</h1>
+
+  @if (isLoading) {
+
+    <p class="text-muted">Loading property...</p>
+
+  } @else if (errorMessage && !property) {
+
+    <div class="alert alert-danger">{{ errorMessage }}</div>
+
+  } @else if (property) {
+
+    <!-- Details form -->
+    <div class="edit-card mb-4">
+
+      <h2 class="h6 fw-bold mb-3">Property Details</h2>
+
+      <form [formGroup]="form" (ngSubmit)="saveDetails()">
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Title</label>
+          <input type="text" class="form-control" formControlName="title">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Description</label>
+          <textarea class="form-control" rows="4" formControlName="description"></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Price</label>
+          <input type="number" class="form-control" formControlName="price" min="1">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">City</label>
+          <input type="text" class="form-control" formControlName="city">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Address</label>
+          <input type="text" class="form-control" formControlName="address">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Country</label>
+          <input type="text" class="form-control" formControlName="country">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Bedrooms</label>
+          <input type="number" class="form-control" formControlName="bedrooms" min="0">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Bathrooms</label>
+          <input type="number" class="form-control" formControlName="bathrooms" min="0">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Rooms</label>
+          <input type="number" class="form-control" formControlName="rooms" min="0">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Area (m²)</label>
+          <input type="number" class="form-control" formControlName="area" min="0">
+        </div>
+
+        @if (errorMessage) {
+          <div class="alert alert-danger">{{ errorMessage }}</div>
+        }
+
+        @if (successMessage) {
+          <div class="alert alert-success">{{ successMessage }}</div>
+        }
+
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isSaving">
+
+          @if (isSaving) {
+            <span class="spinner-border spinner-border-sm me-2"></span>
+          }
+
+          Save Changes
+
+        </button>
+
+      </form>
+
+    </div>
+
+    <!-- Images -->
+    <div class="edit-card">
+
+      <h2 class="h6 fw-bold mb-3">
+        Images ({{ currentImageCount }} / {{ maxImages }})
+      </h2>
+
+      @if (imageError) {
+        <div class="alert alert-danger">{{ imageError }}</div>
+      }
+
+      <div class="image-grid mb-3">
+
+        @for (image of property.images; track image.id) {
+
+          <div class="image-tile">
+
+            <img [src]="image.imageUrl" alt="Property image">
+
+            <button
+              type="button"
+              class="remove-image-btn"
+              [disabled]="deletingImageId === image.id || currentImageCount <= 1"
+              (click)="deleteImage(image.id)"
+              title="Remove image">
+
+              @if (deletingImageId === image.id) {
+                <span class="spinner-border spinner-border-sm"></span>
+              } @else {
+                <i class="bi bi-x-lg"></i>
+              }
+
+            </button>
+
+          </div>
+
+        }
+
+      </div>
+
+      @if (currentImageCount < maxImages) {
+
+        <div class="d-flex align-items-center gap-2">
+
+          <input
+            type="file"
+            class="form-control"
+            accept="image/jpeg,image/png,image/webp"
+            multiple
+            (change)="onNewImagesSelected($event)">
+
+          <button
+            type="button"
+            class="btn btn-outline-primary text-nowrap"
+            [disabled]="newImages.length === 0 || isUploadingImages"
+            (click)="uploadNewImages()">
+
+            @if (isUploadingImages) {
+              <span class="spinner-border spinner-border-sm me-2"></span>
+            }
+
+            Upload
+
+          </button>
+
+        </div>
+
+      } @else {
+
+        <p class="text-muted small mb-0">
+          Maximum of {{ maxImages }} images reached. Remove one to add another.
+        </p>
+
+      }
+
+    </div>
+
+  }
+
+</div>
