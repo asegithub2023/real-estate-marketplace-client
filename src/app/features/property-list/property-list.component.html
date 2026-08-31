@@ -235,8 +235,16 @@
           <!-- Content -->
           <div class="card-body">
 
-            <div class="property-price">
-              {{ property.price | number }}
+            <div class="d-flex align-items-center justify-content-between mb-1">
+
+              <div class="property-price">
+                {{ property.price | number }}
+              </div>
+
+              <span class="badge bg-info-subtle text-info-emphasis listing-type-pill">
+                {{ getListingTypeLabel(property.listingType) }}
+              </span>
+
             </div>
 
             <h5 class="property-title">

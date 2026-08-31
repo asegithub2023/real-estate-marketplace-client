@@ -31,3 +31,28 @@ export function getPropertyStatusVariant(status: number | string): PropertyStatu
 
   return 'success'; // Approved, Available, Sold, Rented
 }
+
+// Order must match RealEstateMarketplace.Domain.Enums.ListingType.
+const LISTING_TYPE_LABELS = ['Sale', 'Rent', 'Short Stay'];
+
+export function getListingTypeLabel(listingType: number | string): string {
+  const index = Number(listingType);
+  return LISTING_TYPE_LABELS[index] ?? 'Unknown';
+}
+
+// Order must match RealEstateMarketplace.Domain.Enums.PropertyType.
+const PROPERTY_TYPE_LABELS = [
+  'House',
+  'Apartment',
+  'Villa',
+  'Condominium',
+  'Office',
+  'Shop',
+  'Warehouse',
+  'Land'
+];
+
+export function getPropertyTypeLabel(propertyType: number | string): string {
+  const index = Number(propertyType);
+  return PROPERTY_TYPE_LABELS[index] ?? 'Unknown';
+}

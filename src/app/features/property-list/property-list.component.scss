@@ -56,7 +56,13 @@
   color: #0d6efd;
   font-size: 1.15rem;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 0;
+}
+
+.listing-type-pill {
+  font-weight: 600;
+  font-size: 0.75rem;
+  white-space: nowrap;
 }
 
 .property-title {

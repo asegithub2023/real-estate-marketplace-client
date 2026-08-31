@@ -7,6 +7,7 @@ import { ConversationService } from '../../services/conversation.service';
 import { AuthService } from '../../services/auth.service';
 import { Property } from '../../models/property';
 import { LoadingComponent } from '../../shared/components/loading/loading.component';
+import { getListingTypeLabel } from '../../shared/utils/property-status';
 
 @Component({
   selector: 'app-property-details',
@@ -37,6 +38,8 @@ export class PropertyDetailsComponent implements OnInit {
   contactError = '';
 
   currentImageIndex = 0;
+
+  readonly getListingTypeLabel = getListingTypeLabel;
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));

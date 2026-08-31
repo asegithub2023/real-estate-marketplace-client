@@ -9,6 +9,7 @@ import { LoadingComponent } from '../../shared/components/loading/loading.compon
 import { ToastComponent } from '../../shared/components/toast/toast.component';
 import { RouterLink } from '@angular/router';
 import { FavoriteService } from '../../services/favorite.service';
+import { getListingTypeLabel } from '../../shared/utils/property-status';
 
 @Component({
   selector: 'app-property-list',
@@ -30,6 +31,8 @@ export class PropertyListComponent implements OnInit {
   private readonly favoriteService = inject(FavoriteService);
 
   properties: Property[] = [];
+
+  readonly getListingTypeLabel = getListingTypeLabel;
 
   search = '';
   minPrice?: number;

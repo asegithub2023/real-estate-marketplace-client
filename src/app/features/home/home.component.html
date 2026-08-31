@@ -107,7 +107,7 @@
     }
 
 
-    <!-- Properties -->
+       <!-- Properties -->
     @else if (featuredProperties.length > 0) {
 
       <div class="row g-4">
@@ -140,8 +140,16 @@
               <!-- Content -->
               <div class="card-body">
 
-                <div class="text-primary fw-bold mb-2">
-                  {{ property.price | number }}
+                <div class="d-flex align-items-center justify-content-between mb-2">
+
+                  <div class="text-primary fw-bold">
+                    {{ property.price | number }}
+                  </div>
+
+                  <span class="badge bg-info-subtle text-info-emphasis listing-type-pill">
+                    {{ getListingTypeLabel(property.listingType) }}
+                  </span>
+
                 </div>
 
                 <h5 class="fw-semibold">
@@ -155,7 +163,6 @@
                   {{ property.city }}, {{ property.country }}
 
                 </p>
-
 
                 <div class="property-details">
 
