@@ -36,6 +36,8 @@ export class PropertyDetailsComponent implements OnInit {
   isStartingConversation = false;
   contactError = '';
 
+  currentImageIndex = 0;
+
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
@@ -54,6 +56,7 @@ export class PropertyDetailsComponent implements OnInit {
     this.propertyService.getPropertyById(id).subscribe({
       next: (property) => {
         this.property = property;
+        this.currentImageIndex = 0;
         this.loading = false;
         this.cdr.markForCheck();
       },
@@ -66,8 +69,39 @@ export class PropertyDetailsComponent implements OnInit {
   }
 
   getPropertyImage(): string {
-    return this.property?.images?.[0]?.imageUrl
+    return this.property?.images?.[this.currentImageIndex]?.imageUrl
       || 'assets/images/property-placeholder.jpg';
+  }
+
+  get isFirstImage(): boolean {
+    return this.currentImageIndex === 0;
+  }
+
+  get isLastImage(): boolean {
+    const total = this.property?.images?.length ?? 0;
+    return total === 0 || this.currentImageIndex === total - 1;
+  }
+
+  get hasMultipleImages(): boolean {
+    return (this.property?.images?.length ?? 0) > 1;
+  }
+
+  previousImage(): void {
+    if (this.isFirstImage) {
+      return;
+    }
+
+    this.currentImageIndex--;
+    this.cdr.markForCheck();
+  }
+
+  nextImage(): void {
+    if (this.isLastImage) {
+      return;
+    }
+
+    this.currentImageIndex++;
+    this.cdr.markForCheck();
   }
 
   get isOwnProperty(): boolean {

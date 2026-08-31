@@ -1,8 +1,55 @@
 .property-image-wrapper {
+  position: relative;
   height: 500px;
   overflow: hidden;
   border-radius: 12px;
   background: #f8f9fa;
+}
+
+.image-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.image-nav-btn:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.image-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.image-nav-prev {
+  left: 16px;
+}
+
+.image-nav-next {
+  right: 16px;
+}
+
+.image-counter {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 0.8rem;
 }
 
 .property-image {

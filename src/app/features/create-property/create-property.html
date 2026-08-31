@@ -162,20 +162,43 @@
         min="0" />
     </div>
 
-    <!-- Status -->
+    <!-- Listing Type -->
     <div class="mb-3">
-      <label for="status" class="form-label fw-semibold">
-        Status
+      <label for="listingType" class="form-label fw-semibold">
+        Listing Type
       </label>
 
       <select
-        id="status"
+        id="listingType"
         class="form-select"
-        formControlName="status">
+        formControlName="listingType">
 
-        <option [ngValue]="0">Available</option>
-        <option [ngValue]="1">Sold</option>
-        <option [ngValue]="2">Rented</option>
+        <option [ngValue]="0">Sale</option>
+        <option [ngValue]="1">Rent</option>
+        <option [ngValue]="2">Short Stay</option>
+
+      </select>
+    </div>
+
+    <!-- Property Type -->
+    <div class="mb-3">
+      <label for="propertyType" class="form-label fw-semibold">
+        Property Type
+      </label>
+
+      <select
+        id="propertyType"
+        class="form-select"
+        formControlName="propertyType">
+
+        <option [ngValue]="0">House</option>
+        <option [ngValue]="1">Apartment</option>
+        <option [ngValue]="2">Villa</option>
+        <option [ngValue]="3">Condominium</option>
+        <option [ngValue]="4">Office</option>
+        <option [ngValue]="5">Shop</option>
+        <option [ngValue]="6">Warehouse</option>
+        <option [ngValue]="7">Land</option>
 
       </select>
     </div>
@@ -196,13 +219,13 @@
         (change)="onImagesSelected($event)" />
 
       <small class="text-muted">
-        At least one image is required.
+        Select 1 to 7 images.
       </small>
 
       @if (selectedImages.length > 0) {
         <div class="mt-2 text-success">
           <i class="bi bi-check-circle me-1"></i>
-          {{ selectedImages.length }} image(s) selected.
+          {{ selectedImages.length }} of {{ maxImages }} image(s) selected.
         </div>
       }
 

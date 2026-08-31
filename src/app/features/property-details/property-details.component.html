@@ -22,7 +22,7 @@
           {{ error }}
         </p>
 
-        <a
+         <a
           routerLink="/properties"
           class="btn btn-primary">
 
@@ -39,7 +39,7 @@
     @else if (property) {
 
       <!-- Back -->
-      <a
+       <a
         routerLink="/properties"
         class="btn btn-link text-decoration-none mb-4">
 
@@ -60,6 +60,36 @@
               [alt]="property.title"
               class="property-image"
             />
+
+            @if (hasMultipleImages) {
+
+              <button
+                type="button"
+                class="image-nav-btn image-nav-prev"
+                [disabled]="isFirstImage"
+                (click)="previousImage()"
+                aria-label="Previous image">
+
+                <i class="bi bi-chevron-left"></i>
+
+              </button>
+
+              <button
+                type="button"
+                class="image-nav-btn image-nav-next"
+                [disabled]="isLastImage"
+                (click)="nextImage()"
+                aria-label="Next image">
+
+                <i class="bi bi-chevron-right"></i>
+
+              </button>
+
+              <span class="image-counter">
+                {{ currentImageIndex + 1 }} / {{ property.images!.length }}
+              </span>
+
+            }
 
           </div>
 

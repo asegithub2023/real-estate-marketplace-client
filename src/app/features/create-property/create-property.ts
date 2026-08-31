@@ -23,6 +23,8 @@ export class CreatePropertyComponent {
 
   selectedImages: File[] = [];
 
+  readonly maxImages = 7;
+
   isSubmitting = false;
   successMessage = '';
   errorMessage = '';
@@ -45,7 +47,8 @@ export class CreatePropertyComponent {
       bathrooms: [0],
       rooms: [0],
       area: [0],
-      status: [0]
+      listingType: [0, Validators.required],
+      propertyType: [0, Validators.required]
     });
   }
 
@@ -56,7 +59,19 @@ export class CreatePropertyComponent {
       return;
     }
 
-    this.selectedImages = Array.from(input.files);
+    const files = Array.from(input.files);
+
+    if (files.length > this.maxImages) {
+      this.errorMessage = `You can upload up to ${this.maxImages} images. Please select ${this.maxImages} or fewer.`;
+      this.selectedImages = [];
+      input.value = '';
+      this.cdr.markForCheck();
+      return;
+    }
+
+    this.errorMessage = '';
+    this.selectedImages = files;
+    this.cdr.markForCheck();
   }
 
   submit(): void {
@@ -67,6 +82,12 @@ export class CreatePropertyComponent {
 
     if (this.selectedImages.length === 0) {
       this.errorMessage = 'At least one image is required.';
+      this.cdr.markForCheck();
+      return;
+    }
+
+    if (this.selectedImages.length > this.maxImages) {
+      this.errorMessage = `You can upload up to ${this.maxImages} images.`;
       this.cdr.markForCheck();
       return;
     }
@@ -87,7 +108,8 @@ export class CreatePropertyComponent {
     formData.append('Bathrooms', this.form.value.bathrooms.toString());
     formData.append('Rooms', this.form.value.rooms.toString());
     formData.append('Area', this.form.value.area.toString());
-    formData.append('Status', this.form.value.status.toString());
+    formData.append('ListingType', this.form.value.listingType.toString());
+    formData.append('PropertyType', this.form.value.propertyType.toString());
 
     const storedUserId = localStorage.getItem('userId');
     const ownerId = storedUserId ? parseInt(storedUserId, 10) : 1;
