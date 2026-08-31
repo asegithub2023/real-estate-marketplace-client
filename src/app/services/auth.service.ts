@@ -10,6 +10,7 @@ import { AuthResponse } from '../models/auth-response';
 import { ForgotPasswordRequest } from '../models/forgot-password-request';
 import { ResetPasswordRequest } from '../models/reset-password-request';
 import { UserSummary } from '../models/user-summary';
+import { UserProfile, UpdateProfileRequest } from '../models/user-profile';
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +62,20 @@ export class AuthService {
   /** Admin-only: list every registered user. */
   getAllUsers(): Observable<UserSummary[]> {
     return this.http.get<UserSummary[]>(`${this.apiUrl}/users`);
+  }
+
+  getMyProfile(): Observable<UserProfile> {
+    return this.http.get<UserProfile>(`${this.apiUrl}/me`);
+  }
+
+  updateMyProfile(request: UpdateProfileRequest): Observable<UserProfile> {
+    return this.http.put<UserProfile>(`${this.apiUrl}/me`, request);
+  }
+
+  uploadMyProfilePhoto(photo: File): Observable<UserProfile> {
+    const formData = new FormData();
+    formData.append('photo', photo);
+    return this.http.post<UserProfile>(`${this.apiUrl}/me/photo`, formData);
   }
 
   logout(): void {
