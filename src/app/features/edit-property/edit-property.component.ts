@@ -9,7 +9,7 @@ import { Property } from '../../models/property';
 @Component({
   selector: 'app-edit-property',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './edit-property.component.html',
   styleUrl: './edit-property.component.scss'
 })

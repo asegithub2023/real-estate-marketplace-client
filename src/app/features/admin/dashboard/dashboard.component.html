@@ -79,7 +79,7 @@
             </p>
           </div>
 
-          <a
+           <a
             routerLink="/admin/properties"
             class="btn btn-sm btn-outline-primary">
 
@@ -172,7 +172,7 @@
             </p>
           </div>
 
-          <a
+           <a
             routerLink="/admin/users"
             class="btn btn-sm btn-outline-primary">
 
@@ -236,7 +236,12 @@
           </h2>
 
           <p class="text-muted mb-0">
-            There are 24 reports waiting for admin review.
+            @if (pendingReportCount !== null) {
+              There {{ pendingReportCount === 1 ? 'is' : 'are' }} {{ pendingReportCount }}
+              report{{ pendingReportCount === 1 ? '' : 's' }} waiting for admin review.
+            } @else {
+              Loading report count...
+            }
           </p>
 
         </div>

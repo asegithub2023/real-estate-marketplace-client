@@ -229,14 +229,20 @@
       <div class="col-md-6 col-lg-4">
 
         <div class="card property-card h-100 border-0 shadow-sm">
-
+          
           <!-- Image -->
           <div class="property-image-wrapper">
 
             <img [src]="getPropertyImage(property)" [alt]="property.title" class="property-image" />
 
-            <span class="badge bg-primary property-status">
-              {{ property.status }}
+            <span
+              class="badge property-status"
+              [class.bg-success]="getPropertyStatusVariant(property.status) === 'success'"
+              [class.bg-warning]="getPropertyStatusVariant(property.status) === 'warning'"
+              [class.bg-danger]="getPropertyStatusVariant(property.status) === 'danger'">
+
+              {{ getPropertyStatusLabel(property.status) }}
+
             </span>
 
 <button
@@ -253,7 +259,6 @@
 </button>
 
           </div>
-
 
           <!-- Content -->
           <div class="card-body">

@@ -9,7 +9,7 @@ import { LoadingComponent } from '../../shared/components/loading/loading.compon
 import { ToastComponent } from '../../shared/components/toast/toast.component';
 import { RouterLink } from '@angular/router';
 import { FavoriteService } from '../../services/favorite.service';
-import { getListingTypeLabel } from '../../shared/utils/property-status';
+import { getListingTypeLabel, getPropertyStatusLabel, getPropertyStatusVariant } from '../../shared/utils/property-status';
 
 @Component({
   selector: 'app-property-list',
@@ -33,6 +33,8 @@ export class PropertyListComponent implements OnInit {
   properties: Property[] = [];
 
   readonly getListingTypeLabel = getListingTypeLabel;
+  readonly getPropertyStatusLabel = getPropertyStatusLabel;
+  readonly getPropertyStatusVariant = getPropertyStatusVariant;
 
   search = '';
   minPrice?: number;

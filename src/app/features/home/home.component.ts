@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { PropertyService } from '../../services/property';
 import { Property } from '../../models/property';
 import { PagedRequest } from '../../models/paged-request';
-import { getListingTypeLabel } from '../../shared/utils/property-status';
+import { getListingTypeLabel, getPropertyStatusLabel, getPropertyStatusVariant } from '../../shared/utils/property-status';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +27,8 @@ export class HomeComponent implements OnInit {
   loading = false;
 
   readonly getListingTypeLabel = getListingTypeLabel;
+  readonly getPropertyStatusLabel = getPropertyStatusLabel;
+  readonly getPropertyStatusVariant = getPropertyStatusVariant;
 
   ngOnInit(): void {
     this.loadFeaturedProperties();

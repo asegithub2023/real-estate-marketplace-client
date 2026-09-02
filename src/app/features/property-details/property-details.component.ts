@@ -9,7 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import { ReportService } from '../../services/report.service';
 import { Property } from '../../models/property';
 import { LoadingComponent } from '../../shared/components/loading/loading.component';
-import { getListingTypeLabel } from '../../shared/utils/property-status';
+import { getListingTypeLabel, getPropertyStatusLabel, getPropertyStatusVariant } from '../../shared/utils/property-status';
 
 @Component({
   selector: 'app-property-details',
@@ -50,6 +50,8 @@ export class PropertyDetailsComponent implements OnInit {
   currentImageIndex = 0;
 
   readonly getListingTypeLabel = getListingTypeLabel;
+  readonly getPropertyStatusLabel = getPropertyStatusLabel;
+  readonly getPropertyStatusVariant = getPropertyStatusVariant;
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));

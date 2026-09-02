@@ -4,6 +4,8 @@ import { forkJoin } from 'rxjs';
 
 import { AuthService } from '../../../services/auth.service';
 import { PropertyService } from '../../../services/property';
+import { ReportService } from '../../../services/report.service';
+import { ReportStatus } from '../../../models/report';
 import { getPropertyStatusLabel, getPropertyStatusVariant } from '../../../shared/utils/property-status';
 
 interface StatCard {
@@ -38,9 +40,12 @@ export class DashboardComponent implements OnInit {
 
   private readonly authService = inject(AuthService);
   private readonly propertyService = inject(PropertyService);
+  private readonly reportService = inject(ReportService);
   private readonly cdr = inject(ChangeDetectorRef);
 
   isLoading = false;
+
+  pendingReportCount: number | null = null;
 
   stats: StatCard[] = [
     { title: 'Total Users', value: '—', icon: 'bi-people', description: '' },
@@ -56,10 +61,13 @@ export class DashboardComponent implements OnInit {
 
     forkJoin({
       users: this.authService.getAllUsers(),
-      properties: this.propertyService.getAllProperties()
+      properties: this.propertyService.getAllProperties(),
+      reports: this.reportService.getAllReports()
     }).subscribe({
-      next: ({ users, properties }) => {
+      next: ({ users, properties, reports }) => {
         const activeCount = properties.filter(p => Number(p.status) >= 2 && Number(p.status) !== 3).length;
+
+        this.pendingReportCount = reports.filter(r => r.status === ReportStatus.Pending).length;
 
         this.stats = [
           { title: 'Total Users', value: users.length.toString(), icon: 'bi-people', description: 'Registered accounts' },

@@ -121,7 +121,7 @@
 
             <div class="card property-card h-100 border-0 shadow-sm">
 
-              <!-- Image -->
+                           <!-- Image -->
               <div class="property-image-wrapper">
 
                 <img
@@ -130,8 +130,14 @@
                   class="property-image"
                 />
 
-                <span class="badge bg-primary property-status">
-                  {{ property.status }}
+                <span
+                  class="badge property-status"
+                  [class.bg-success]="getPropertyStatusVariant(property.status) === 'success'"
+                  [class.bg-warning]="getPropertyStatusVariant(property.status) === 'warning'"
+                  [class.bg-danger]="getPropertyStatusVariant(property.status) === 'danger'">
+
+                  {{ getPropertyStatusLabel(property.status) }}
+
                 </span>
 
               </div>
