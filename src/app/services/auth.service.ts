@@ -42,22 +42,22 @@ export class AuthService {
   }
 
   forgotPassword(
-    request: ForgotPasswordRequest
-  ): Observable<void> {
-    return this.http.post<void>(
-      `${this.apiUrl}/forgot-password`,
-      request
-    );
-  }
+  request: ForgotPasswordRequest
+): Observable<{ message: string }> {
+  return this.http.post<{ message: string }>(
+    `${this.apiUrl}/forgot-password`,
+    request
+  );
+}
 
-  resetPassword(
-    request: ResetPasswordRequest
-  ): Observable<void> {
-    return this.http.post<void>(
-      `${this.apiUrl}/reset-password`,
-      request
-    );
-  }
+resetPassword(
+  request: ResetPasswordRequest
+): Observable<{ message: string }> {
+  return this.http.post<{ message: string }>(
+    `${this.apiUrl}/reset-password`,
+    request
+  );
+}
 
   /** Admin-only: list every registered user. */
   getAllUsers(): Observable<UserSummary[]> {

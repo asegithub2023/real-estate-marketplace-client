@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ChangeDetectorRef, inject } from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -22,6 +22,7 @@ export class ForgotPasswordComponent {
 
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   loading = false;
   submitted = false;
@@ -32,27 +33,35 @@ export class ForgotPasswordComponent {
   });
 
   onSubmit(): void {
-    if (this.forgotPasswordForm.invalid) {
-      this.forgotPasswordForm.markAllAsTouched();
-      return;
-    }
-
-    this.loading = true;
-    this.errorMessage = '';
-
-    const { email } = this.forgotPasswordForm.getRawValue();
-
-    this.authService.forgotPassword({ email }).subscribe({
-      next: () => {
-        this.loading = false;
-        this.submitted = true;
-      },
-      error: (error) => {
-        this.loading = false;
-        this.errorMessage =
-          error?.error?.message ??
-          'Unable to process your request. Please try again.';
-      }
-    });
+  if (this.forgotPasswordForm.invalid) {
+    this.forgotPasswordForm.markAllAsTouched();
+    return;
   }
+
+  this.loading = true;
+  this.errorMessage = '';
+
+  const { email } = this.forgotPasswordForm.getRawValue();
+
+  this.authService.forgotPassword({ email }).subscribe({
+    next: (response) => {
+  console.log('SUCCESS', response);
+
+  this.loading = false;
+  this.submitted = true;
+
+  this.cdr.detectChanges();
+
+  //console.log('submitted =', this.submitted);
+},
+    error: (error) => {
+      console.error('ERROR', error);
+
+      this.loading = false;
+      this.errorMessage =
+        error?.error?.message ??
+        'Unable to process your request. Please try again.';
+    }
+  });
+}
 }

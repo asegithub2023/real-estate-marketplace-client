@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ChangeDetectorRef, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -32,7 +32,7 @@ export class ResetPasswordComponent {
   private readonly authService = inject(AuthService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-
+  private readonly cdr = inject(ChangeDetectorRef);
   loading = false;
   submitted = false;
   errorMessage = '';
@@ -78,6 +78,7 @@ export class ResetPasswordComponent {
       next: () => {
         this.loading = false;
         this.submitted = true;
+        this.cdr.detectChanges();
       },
       error: (error) => {
         this.loading = false;
