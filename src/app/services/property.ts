@@ -31,12 +31,10 @@ export class PropertyService {
       );
   }
 
-  /** Properties owned by a specific user - backend returns a plain array, not paged. */
   getPropertiesByOwner(ownerId: number): Observable<Property[]> {
     return this.http.get<Property[]>(`${this.apiUrl}/owner/${ownerId}`);
   }
 
-  /** Every property on the platform - plain array, no pagination. Used by admin views. */
   getAllProperties(): Observable<Property[]> {
     return this.http.get<Property[]>(this.apiUrl);
   }

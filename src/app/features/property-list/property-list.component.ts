@@ -62,6 +62,7 @@ export class PropertyListComponent implements OnInit {
   ngOnInit(): void {
     this.loadProperties();
 
+    // Refresh the view when favorite state changes elsewhere.
     this.favoriteService.favoriteIds$.subscribe(() =>
       this.cdr.markForCheck()
     );

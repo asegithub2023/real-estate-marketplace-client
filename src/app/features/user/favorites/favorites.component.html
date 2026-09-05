@@ -1,6 +1,5 @@
 <div class="favorites-page">
 
-  <!-- Header -->
   <div class="page-header">
 
     <div>
@@ -13,8 +12,7 @@
       </p>
     </div>
 
-    
-    <a 
+    <a
      routerLink="/properties"
       class="btn btn-outline-primary">
 
@@ -25,8 +23,6 @@
 
   </div>
 
-
-  <!-- Loading -->
   @if (isLoading) {
 
     <div class="state-card">
@@ -49,8 +45,6 @@
 
   }
 
-
-  <!-- Error -->
   @if (!isLoading && errorMessage) {
 
     <div class="alert alert-danger">
@@ -68,7 +62,6 @@
 
 }
 
-  <!-- Empty -->
   @if (!isLoading && !errorMessage && favorites.length === 0) {
 
     <div class="state-card">
@@ -98,8 +91,6 @@
 
   }
 
-
-  <!-- Favorites -->
   @if (!isLoading && !errorMessage && favorites.length > 0) {
 
     <div class="row g-4">
@@ -137,7 +128,6 @@
               </button>
 
             </div>
-
 
             <div class="property-content">
 

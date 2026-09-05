@@ -12,11 +12,6 @@ import { AuthService } from './auth.service';
 import { Conversation } from '../models/conversation';
 import { Message } from '../models/message';
 
-/**
- * Thin wrapper around the SignalR connection to /hubs/chat. Owns exactly one
- * connection for the whole app session; components subscribe to the exposed
- * observables and call join/leaveConversation for the thread they have open.
- */
 @Injectable({ providedIn: 'root' })
 export class ChatHubService {
   private readonly authService = inject(AuthService);
@@ -30,18 +25,18 @@ export class ChatHubService {
   readonly conversationUpdated$ = this.conversationUpdatedSource.asObservable();
 
   async start(): Promise<void> {
+    // Avoid duplicate connections when views initialize more than once.
     if (this.connection && this.connection.state !== HubConnectionState.Disconnected) {
       return;
     }
 
-    // The hub is mapped at the app root, not under the /api/v1 REST prefix.
     const hubUrl = `${environment.apiUrl.replace(/\/api\/v\d+\/?$/, '')}/hubs/chat`;
 
+    // SignalR receives the current JWT through the token factory.
     this.connection = new HubConnectionBuilder()
       .withUrl(hubUrl, {
         accessTokenFactory: () => this.authService.getToken() ?? '',
-        // No cookies are used for auth (Bearer token only), so this avoids
-        // requiring the backend CORS policy to allow credentials.
+
         withCredentials: false
       })
       .withAutomaticReconnect()
@@ -59,8 +54,7 @@ export class ChatHubService {
     try {
       await this.connection.start();
     } catch (error) {
-      // Realtime is a progressive enhancement here - REST calls still work if
-      // the socket can't connect (e.g. briefly during a server restart).
+
       console.error('SignalR connection failed to start:', error);
     }
   }

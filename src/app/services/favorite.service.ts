@@ -24,7 +24,6 @@ export class FavoriteService {
     return this.favoriteIdsSubject.value;
   }
 
-
   loadFavoriteIds(): void {
   this.http.get<ApiResponse<Favorite>[]>(`${this.apiUrl}/me`).subscribe({
     next: (response) => {
@@ -39,7 +38,6 @@ getFavorites(): Observable<Favorite[]> {
     .get<ApiResponse<Favorite>[]>(`${this.apiUrl}/me`)
     .pipe(map(response => response.map(r => r.data)));
 }
-
 
   toggleFavorite(propertyId: number): Observable<boolean> {
     const isFavorited = this.favoriteIdsSubject.value.has(propertyId);

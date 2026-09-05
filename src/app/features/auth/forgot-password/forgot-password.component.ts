@@ -52,7 +52,6 @@ export class ForgotPasswordComponent {
 
   this.cdr.detectChanges();
 
-  //console.log('submitted =', this.submitted);
 },
     error: (error) => {
       console.error('ERROR', error);

@@ -27,6 +27,7 @@ export class AuthService {
 
   private readonly authenticationStateSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
   readonly authenticationState$ = this.authenticationStateSubject.asObservable();
+  // Share profile-photo changes with the navbar and other persistent UI.
   private readonly profileImageSubject = new BehaviorSubject<string | null>(null);
   readonly profileImage$ = this.profileImageSubject.asObservable();
 
@@ -64,7 +65,6 @@ resetPassword(
   );
 }
 
-  /** Admin-only: list every registered user. */
   getAllUsers(): Observable<UserSummary[]> {
     return this.http.get<UserSummary[]>(`${this.apiUrl}/users`);
   }
@@ -119,6 +119,7 @@ resetPassword(
   }
 
   private persistSession(response: AuthResponse): void {
+    // Keep the session data available to guards and HTTP requests.
     localStorage.setItem(this.tokenKey, response.token);
     localStorage.setItem(this.userIdKey, response.userId.toString());
     localStorage.setItem(this.roleKey, response.role);

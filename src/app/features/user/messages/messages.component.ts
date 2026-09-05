@@ -44,6 +44,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
   errorMessage = '';
 
   async ngOnInit(): Promise<void> {
+    // Start realtime delivery before loading the conversation list.
     await this.chatHubService.start();
 
     this.messageSub = this.chatHubService.messageReceived$.subscribe(
@@ -76,9 +77,6 @@ export class MessagesComponent implements OnInit, OnDestroy {
         this.conversations = conversations;
         this.isLoadingConversations = false;
 
-        // Coming from "Contact Owner" on a property page lands here with
-        // ?conversationId=<id> - open that one directly. Otherwise fall back
-        // to the most recent conversation, if any.
         const requestedId = Number(this.route.snapshot.queryParamMap.get('conversationId'));
         const toOpen = requestedId
           ? conversations.find(c => c.id === requestedId)
@@ -108,8 +106,6 @@ export class MessagesComponent implements OnInit, OnDestroy {
     this.isLoadingMessages = true;
     this.errorMessage = '';
 
-    // Optimistic: the backend marks these messages read the moment we fetch
-    // them below, so clear the badge locally right away too.
     conversation.unreadCount = 0;
 
     this.chatHubService.joinConversation(conversation.id);
@@ -160,10 +156,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
   }
 
   private appendMessage(message: Message): void {
-    // Guards against seeing our own message twice: once from the HTTP response
-    // that created it, once from the SignalR broadcast that echoes it back to
-    // everyone in the conversation's group (including the sender's own
-    // connections/tabs).
+
+    // SignalR may echo a message already returned by the POST request.
     if (!this.messages.some(m => m.id === message.id)) {
       this.messages.push(message);
     }
@@ -173,14 +167,12 @@ export class MessagesComponent implements OnInit, OnDestroy {
     const index = this.conversations.findIndex(c => c.id === updated.id);
 
     if (index === -1) {
-      // A brand new conversation someone just started with us.
+
       this.conversations.unshift(updated);
     } else {
       this.conversations[index] = updated;
     }
 
-    // If this conversation is the one currently open, treat it as already
-    // read rather than showing a badge for a thread that's on screen.
     if (this.selectedConversation?.id === updated.id) {
       this.selectedConversation = updated;
       updated.unreadCount = 0;

@@ -2,7 +2,6 @@
 
   <div class="container py-5">
 
-    <!-- Header -->
     <div class="row mb-4">
 
       <div class="col-md-8">
@@ -21,8 +20,6 @@
 
     </div>
 
-
-    <!-- Search -->
     <div class="search-box card border-0 shadow-sm mb-3">
 
       <div class="card-body">
@@ -65,8 +62,6 @@
 
         </div>
 
-
-        <!-- Filters -->
         <div class="row g-2 mt-2">
 
           <div class="col-md-2">
@@ -140,16 +135,12 @@
 
     </div>
 
-
-    <!-- Loading -->
     @if (loading) {
 
     <app-loading message="Loading properties..." />
 
     }
 
-
-    <!-- Error State -->
     @else if (error) {
 
     <div class="state-container text-center py-5">
@@ -177,7 +168,6 @@
 
     }
 
-    <!-- Empty State -->
     @else if (properties.length === 0) {
 
     <div class="state-container text-center py-5">
@@ -209,8 +199,6 @@
 
     }
 
-
-    <!-- Properties -->
     @else {
 
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -221,7 +209,6 @@
 
     </div>
 
-
     <div class="row g-4">
 
       @for (property of properties; track property.id) {
@@ -229,8 +216,7 @@
       <div class="col-md-6 col-lg-4">
 
         <div class="card property-card h-100 border-0 shadow-sm">
-          
-          <!-- Image -->
+
           <div class="property-image-wrapper">
 
             <img [src]="getPropertyImage(property)" [alt]="property.title" class="property-image" />
@@ -260,7 +246,6 @@
 
           </div>
 
-          <!-- Content -->
           <div class="card-body">
 
             <div class="d-flex align-items-center justify-content-between mb-1">
@@ -287,7 +272,6 @@
 
             </p>
 
-
             <div class="property-details">
 
               <span>
@@ -309,7 +293,6 @@
 
           </div>
 
-<!-- Footer -->
 <a
   [routerLink]="['/properties', property.id]"
   class="btn btn-outline-primary w-100">
@@ -328,8 +311,6 @@
 
     </div>
 
-
-    <!-- Pagination -->
     @if (totalPages > 1) {
 
     <nav class="mt-5" aria-label="Property pagination">
@@ -346,7 +327,6 @@
 
         </li>
 
-
         @for (pageNumber of pages; track pageNumber) {
 
         <li class="page-item" [class.active]="pageNumber === page">
@@ -360,7 +340,6 @@
         </li>
 
         }
-
 
         <li class="page-item" [class.disabled]="page === totalPages">
 

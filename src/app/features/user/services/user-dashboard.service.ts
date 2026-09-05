@@ -24,6 +24,7 @@ export class UserDashboardService {
   getDashboardStats(): Observable<DashboardStats> {
     const userId = this.authService.getCurrentUserId();
 
+    // Load independent dashboard totals in parallel.
     return forkJoin({
       favorites: this.favoriteService.getFavorites(),
       properties: userId
@@ -32,9 +33,7 @@ export class UserDashboardService {
     }).pipe(
       map(({ favorites, properties }) => ({
         totalProperties: properties.length,
-        // The API returns PropertyStatus as its numeric enum value, and
-        // PropertyStatus.Draft = 0 on the backend - "active" here just means
-        // "not sitting as an unpublished draft".
+
         activeProperties: properties.filter(p => Number(p.status) !== 0).length,
         favorites: favorites.length,
         unreadNotifications: 0

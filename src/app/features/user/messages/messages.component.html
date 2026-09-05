@@ -1,6 +1,5 @@
 <div class="messages-page">
 
-  <!-- Page Header -->
   <div class="page-header">
 
     <div>
@@ -15,18 +14,14 @@
 
   </div>
 
-
   @if (errorMessage) {
     <div class="alert alert-danger" role="alert">
       {{ errorMessage }}
     </div>
   }
 
-
-  <!-- Messages Layout -->
   <div class="messages-container">
 
-    <!-- Conversations -->
     <aside class="conversation-panel">
 
       <div class="conversation-header">
@@ -40,7 +35,6 @@
         </span>
 
       </div>
-
 
       @if (isLoadingConversations) {
 
@@ -76,13 +70,10 @@
               "
               (click)="selectConversation(conversation)">
 
-              <!-- Avatar -->
               <div class="avatar">
                 {{ conversation.otherUserName.charAt(0) }}
               </div>
 
-
-              <!-- Conversation Info -->
               <div class="conversation-info">
 
                 <div class="conversation-top">
@@ -127,13 +118,10 @@
 
     </aside>
 
-
-    <!-- Chat -->
     <section class="chat-panel">
 
       @if (selectedConversation) {
 
-        <!-- Chat Header -->
         <header class="chat-header">
 
           <div class="avatar">
@@ -154,8 +142,6 @@
 
         </header>
 
-
-        <!-- Messages -->
         <div class="chat-body">
 
           @if (isLoadingMessages) {
@@ -194,8 +180,6 @@
 
         </div>
 
-
-        <!-- Message Input -->
         <footer class="message-input">
 
           <input

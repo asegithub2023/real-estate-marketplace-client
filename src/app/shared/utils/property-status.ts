@@ -1,6 +1,3 @@
-// The API returns PropertyStatus as its raw numeric enum value (no
-// JsonStringEnumConverter is configured server-side), so the frontend has to
-// map it to a label itself. Order must match RealEstateMarketplace.Domain.Enums.PropertyStatus.
 const STATUS_LABELS = [
   'Draft',
   'Pending Approval',
@@ -11,6 +8,7 @@ const STATUS_LABELS = [
   'Rented'
 ];
 
+// Keep this order aligned with the API enum values.
 export function getPropertyStatusLabel(status: number | string): string {
   const index = Number(status);
   return STATUS_LABELS[index] ?? 'Unknown';
@@ -22,17 +20,16 @@ export function getPropertyStatusVariant(status: number | string): PropertyStatu
   const index = Number(status);
 
   if (index === 3) {
-    return 'danger'; // Rejected
+    return 'danger';
   }
 
   if (index === 0 || index === 1) {
-    return 'warning'; // Draft, Pending Approval
+    return 'warning';
   }
 
-  return 'success'; // Approved, Available, Sold, Rented
+  return 'success';
 }
 
-// Order must match RealEstateMarketplace.Domain.Enums.ListingType.
 const LISTING_TYPE_LABELS = ['Sale', 'Rent', 'Short Stay'];
 
 export function getListingTypeLabel(listingType: number | string): string {
@@ -40,7 +37,6 @@ export function getListingTypeLabel(listingType: number | string): string {
   return LISTING_TYPE_LABELS[index] ?? 'Unknown';
 }
 
-// Order must match RealEstateMarketplace.Domain.Enums.PropertyType.
 const PROPERTY_TYPE_LABELS = [
   'House',
   'Apartment',

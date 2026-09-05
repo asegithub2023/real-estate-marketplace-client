@@ -19,8 +19,6 @@
   overflow: hidden;
 }
 
-/* Conversations */
-
 .conversation-panel {
   border-right: 1px solid #e9ecef;
   overflow-y: auto;
@@ -137,8 +135,6 @@
   text-overflow: ellipsis;
 }
 
-/* Chat */
-
 .chat-panel {
   display: flex;
   flex-direction: column;
@@ -228,9 +224,6 @@
 .no-conversation i {
   font-size: 3rem;
 }
-
-
-/* Mobile */
 
 @media (max-width: 768px) {
 

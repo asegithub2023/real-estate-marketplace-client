@@ -21,6 +21,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   profileImageUrl: string | null = null;
 
   ngOnInit(): void {
+    // Refresh the navbar photo after login and profile changes.
     this.authService.authenticationState$
       .pipe(takeUntil(this.destroy$))
       .subscribe(isAuthenticated => {

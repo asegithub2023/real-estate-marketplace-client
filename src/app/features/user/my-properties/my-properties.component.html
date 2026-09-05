@@ -1,6 +1,5 @@
 <div class="my-properties-page">
 
-  <!-- Header -->
   <div class="page-header">
 
     <div>
@@ -24,8 +23,6 @@
 
   </div>
 
-
-  <!-- Loading -->
   @if (isLoading) {
 
     <div class="state-card">
@@ -48,8 +45,6 @@
 
   }
 
-
-  <!-- Error -->
   @if (!isLoading && errorMessage) {
 
     <div class="alert alert-danger">
@@ -59,8 +54,6 @@
 
   }
 
-
-  <!-- Empty -->
   @if (!isLoading && !errorMessage && properties.length === 0) {
 
     <div class="state-card">
@@ -88,8 +81,6 @@
 
   }
 
-
-  <!-- Properties -->
   @if (!isLoading && !errorMessage && properties.length > 0) {
 
     <div class="row g-4">
@@ -100,7 +91,6 @@
 
           <article class="property-card">
 
-            <!-- Image -->
             <div class="property-image">
 
               @if (property.images && property.images.length > 0) {
@@ -119,8 +109,6 @@
 
             </div>
 
-
-            <!-- Content -->
             <div class="property-content">
 
               <div class="d-flex justify-content-between gap-2 mb-2">

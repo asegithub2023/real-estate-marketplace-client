@@ -23,7 +23,6 @@ export class ReportsComponent implements OnInit {
   loading = false;
   error = '';
 
-  // Id of the report whose status update is currently in flight, if any.
   updatingReportId: number | null = null;
 
   ngOnInit(): void {

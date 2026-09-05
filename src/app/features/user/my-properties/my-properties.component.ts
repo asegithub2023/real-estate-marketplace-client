@@ -24,9 +24,6 @@ export class MyPropertiesComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly cdr = inject(ChangeDetectorRef);
 
-  // Values match RealEstateMarketplace.Domain.Enums.PropertyStatus.
-  // Owners are only allowed to move between these three states themselves;
-  // Draft/PendingApproval/Approved/Rejected are managed elsewhere (e.g. admin review).
   readonly ownerStatusOptions = [
     { value: 4, label: 'Available' },
     { value: 5, label: 'Sold' },
@@ -38,10 +35,8 @@ export class MyPropertiesComponent implements OnInit {
   isLoading = false;
   errorMessage = '';
 
-  // Id of the property whose status update is currently in flight, if any.
   updatingPropertyId: number | null = null;
 
-  // Id of the property currently showing the "are you sure?" confirmation.
   confirmingDeleteId: number | null = null;
   deletingPropertyId: number | null = null;
 

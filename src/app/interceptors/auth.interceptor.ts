@@ -14,6 +14,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
   }
 
+  // Clone the immutable request before adding the bearer header.
   const authReq = req.clone({
     setHeaders: {
       Authorization: `Bearer ${token}`

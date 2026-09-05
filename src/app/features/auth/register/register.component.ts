@@ -112,7 +112,6 @@ export class RegisterComponent {
         this.loading = false;
         this.showToast('Account created successfully! Redirecting...', 'success');
 
-        // Give the toast a moment to actually be seen before we navigate away.
         setTimeout(() => {
           this.router.navigate(['/dashboard']);
         }, 800);

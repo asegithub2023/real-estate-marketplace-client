@@ -18,7 +18,6 @@ export class ConversationService {
     return this.http.get<Conversation>(`${this.apiUrl}/${id}`);
   }
 
-  /** Creates a conversation about a property, or returns the existing one if already started. */
   startConversation(propertyId: number): Observable<Conversation> {
     const request: CreateConversationRequest = { propertyId };
     return this.http.post<Conversation>(this.apiUrl, request);

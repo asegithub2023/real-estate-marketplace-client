@@ -9,6 +9,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
+    // Attach the bearer token to API requests when a session exists.
     provideHttpClient(withInterceptors([authInterceptor]))
   ]
 };

@@ -1,10 +1,10 @@
-
 import { Routes } from '@angular/router';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
+  // Feature pages are lazy-loaded to keep the initial bundle smaller.
   {
     path: '',
     loadComponent: () =>
@@ -49,7 +49,6 @@ export const routes: Routes = [
     import('./features/auth/forgot-password/forgot-password.component')
       .then(m => m.ForgotPasswordComponent)
 },
-
 
 {
   path: 'reset-password',
@@ -117,7 +116,7 @@ export const routes: Routes = [
   path: 'admin',
   canActivate: [adminGuard],
   children: [
-    
+
     {
       path: '',
       redirectTo: 'dashboard',
@@ -164,7 +163,6 @@ export const routes: Routes = [
     import('./features/property-details/property-details.component')
       .then(m => m.PropertyDetailsComponent)
 },
-
 
   {
     path: '**',

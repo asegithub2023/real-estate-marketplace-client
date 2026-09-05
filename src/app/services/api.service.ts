@@ -11,6 +11,7 @@ export class ApiService {
 
   private readonly baseUrl = environment.apiUrl;
 
+  // Keep endpoint construction consistent across feature services.
   get<T>(endpoint: string) {
     return this.http.get<T>(`${this.baseUrl}${endpoint}`);
   }

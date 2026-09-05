@@ -17,8 +17,7 @@ interface AdminProperty {
   price: string;
   status: string;
   variant: PropertyStatusVariant;
-  // Draft (0) or Pending Approval (1) - the only statuses that make sense to
-  // action from here; anything past that is already decided.
+
   needsReview: boolean;
 }
 

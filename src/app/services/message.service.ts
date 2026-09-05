@@ -9,10 +9,9 @@ import { Message, CreateMessageRequest } from '../models/message';
 export class MessageService {
   private readonly http = inject(HttpClient);
 
-  // Backend route is singular: MessageController -> [controller] token = "Message"
-  // (NOT "/messages" - see the note at the top of MessagesController.cs).
   private readonly apiUrl = `${environment.apiUrl}/message`;
 
+  // The backend uses the singular MessageController route.
   getMessages(conversationId: number): Observable<Message[]> {
     return this.http.get<Message[]>(`${this.apiUrl}/conversation/${conversationId}`);
   }

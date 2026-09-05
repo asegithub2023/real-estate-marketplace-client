@@ -9,7 +9,6 @@ export interface Report {
   propertyTitle: string;
 }
 
-// Matches RealEstateMarketplace.Domain.Enums.ReportStatus
 export const ReportStatus = {
   Pending: 0,
   Reviewed: 1,

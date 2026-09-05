@@ -8,7 +8,6 @@
     class="property-form"
     novalidate>
 
-    <!-- Title -->
     <div class="mb-3">
       <label for="title" class="form-label fw-semibold">
         Title
@@ -29,7 +28,6 @@
       }
     </div>
 
-    <!-- Description -->
     <div class="mb-3">
       <label for="description" class="form-label fw-semibold">
         Description
@@ -50,7 +48,6 @@
       }
     </div>
 
-    <!-- Price -->
     <div class="mb-3">
       <label for="price" class="form-label fw-semibold">
         Price
@@ -64,7 +61,6 @@
         min="1" />
     </div>
 
-    <!-- City -->
     <div class="mb-3">
       <label for="city" class="form-label fw-semibold">
         City
@@ -78,7 +74,6 @@
         placeholder="Addis Ababa" />
     </div>
 
-    <!-- Address -->
     <div class="mb-3">
       <label for="address" class="form-label fw-semibold">
         Address
@@ -92,7 +87,6 @@
         placeholder="Property address" />
     </div>
 
-    <!-- Country -->
     <div class="mb-3">
       <label for="country" class="form-label fw-semibold">
         Country
@@ -106,7 +100,6 @@
         placeholder="Ethiopia" />
     </div>
 
-    <!-- Bedrooms -->
     <div class="mb-3">
       <label for="bedrooms" class="form-label fw-semibold">
         Bedrooms
@@ -120,7 +113,6 @@
         min="0" />
     </div>
 
-    <!-- Bathrooms -->
     <div class="mb-3">
       <label for="bathrooms" class="form-label fw-semibold">
         Bathrooms
@@ -134,7 +126,6 @@
         min="0" />
     </div>
 
-    <!-- Rooms -->
     <div class="mb-3">
       <label for="rooms" class="form-label fw-semibold">
         Rooms
@@ -148,7 +139,6 @@
         min="0" />
     </div>
 
-    <!-- Area -->
     <div class="mb-3">
       <label for="area" class="form-label fw-semibold">
         Area (m²)
@@ -162,7 +152,6 @@
         min="0" />
     </div>
 
-    <!-- Listing Type -->
     <div class="mb-3">
       <label for="listingType" class="form-label fw-semibold">
         Listing Type
@@ -180,7 +169,6 @@
       </select>
     </div>
 
-    <!-- Property Type -->
     <div class="mb-3">
       <label for="propertyType" class="form-label fw-semibold">
         Property Type
@@ -203,7 +191,6 @@
       </select>
     </div>
 
-    <!-- Images -->
     <div class="mb-4">
 
       <label for="images" class="form-label fw-semibold">
@@ -231,7 +218,6 @@
 
     </div>
 
-    <!-- Error -->
     @if (errorMessage) {
       <div class="alert alert-danger">
         <i class="bi bi-exclamation-circle me-2"></i>
@@ -239,7 +225,6 @@
       </div>
     }
 
-    <!-- Success -->
     @if (successMessage) {
       <div class="alert alert-success">
         <i class="bi bi-check-circle me-2"></i>
@@ -247,7 +232,6 @@
       </div>
     }
 
-    <!-- Submit -->
     <button
       type="submit"
       class="btn btn-primary w-100 py-2"
