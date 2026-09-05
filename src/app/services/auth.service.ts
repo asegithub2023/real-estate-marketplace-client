@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 
@@ -24,6 +24,11 @@ export class AuthService {
   private readonly tokenKey = 'access_token';
   private readonly userIdKey = 'userId';
   private readonly roleKey = 'role';
+
+  private readonly authenticationStateSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
+  readonly authenticationState$ = this.authenticationStateSubject.asObservable();
+  private readonly profileImageSubject = new BehaviorSubject<string | null>(null);
+  readonly profileImage$ = this.profileImageSubject.asObservable();
 
   login(request: LoginRequest): Observable<AuthResponse> {
     return this.http
@@ -65,23 +70,31 @@ resetPassword(
   }
 
   getMyProfile(): Observable<UserProfile> {
-    return this.http.get<UserProfile>(`${this.apiUrl}/me`);
+    return this.http.get<UserProfile>(`${this.apiUrl}/me`).pipe(
+      tap(profile => this.profileImageSubject.next(profile.profileImageUrl ?? null))
+    );
   }
 
   updateMyProfile(request: UpdateProfileRequest): Observable<UserProfile> {
-    return this.http.put<UserProfile>(`${this.apiUrl}/me`, request);
+    return this.http.put<UserProfile>(`${this.apiUrl}/me`, request).pipe(
+      tap(profile => this.profileImageSubject.next(profile.profileImageUrl ?? null))
+    );
   }
 
   uploadMyProfilePhoto(photo: File): Observable<UserProfile> {
     const formData = new FormData();
     formData.append('photo', photo);
-    return this.http.post<UserProfile>(`${this.apiUrl}/me/photo`, formData);
+    return this.http.post<UserProfile>(`${this.apiUrl}/me/photo`, formData).pipe(
+      tap(profile => this.profileImageSubject.next(profile.profileImageUrl ?? null))
+    );
   }
 
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userIdKey);
     localStorage.removeItem(this.roleKey);
+    this.profileImageSubject.next(null);
+    this.authenticationStateSubject.next(false);
   }
 
   getToken(): string | null {
@@ -109,5 +122,6 @@ resetPassword(
     localStorage.setItem(this.tokenKey, response.token);
     localStorage.setItem(this.userIdKey, response.userId.toString());
     localStorage.setItem(this.roleKey, response.role);
+    this.authenticationStateSubject.next(true);
   }
 }

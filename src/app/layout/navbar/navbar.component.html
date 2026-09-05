@@ -6,37 +6,24 @@
       RealEstate
     </a>
 
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#mainNavbar"
-      aria-controls="mainNavbar"
-      aria-expanded="false"
-      aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+      aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
 
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="mainNavbar">
 
-      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav navbar-links mx-auto mb-2 mb-lg-0">
 
         <li class="nav-item">
-          <a
-            class="nav-link"
-            routerLink="/"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             Home
           </a>
         </li>
 
         <li class="nav-item">
-          <a
-            class="nav-link"
-            routerLink="/properties"
-            routerLinkActive="active">
+          <a class="nav-link" routerLink="/properties" routerLinkActive="active">
             Properties
           </a>
         </li>
@@ -45,36 +32,36 @@
 
       @if (isAuthenticated) {
 
-        <div class="d-flex gap-2">
-          <a
-            [routerLink]="dashboardLink"
-            class="btn btn-outline-primary">
-            {{ dashboardLabel }}
-          </a>
+      <div class="d-flex navbar-actions">
+        <a [routerLink]="dashboardLink" class="btn btn-outline-primary">
+          {{ dashboardLabel }}
+        </a>
 
-          <button
-            type="button"
-            class="btn btn-primary"
-            (click)="logout()">
-            Logout
-          </button>
-        </div>
+        <button type="button" class="btn btn-primary" (click)="logout()">
+          Logout
+        </button>
+
+        <a routerLink="/dashboard/profile" class="btn btn-outline-secondary profile-link" aria-label="View profile"
+          title="Profile">
+          @if (profileImageUrl) {
+          <img [src]="profileImageUrl" alt="Profile photo" class="navbar-profile-image">
+          } @else {
+          <i class="bi bi-person-circle"></i>
+          }
+        </a>
+      </div>
 
       } @else {
 
-        <div class="d-flex gap-2">
-          <a
-            routerLink="/login"
-            class="btn btn-outline-primary">
-            Login
-          </a>
+      <div class="d-flex navbar-actions">
+        <a routerLink="/login" class="btn btn-outline-primary">
+          Login
+        </a>
 
-          <a
-            routerLink="/register"
-            class="btn btn-primary">
-            Register
-          </a>
-        </div>
+        <a routerLink="/register" class="btn btn-primary">
+          Register
+        </a>
+      </div>
 
       }
 
