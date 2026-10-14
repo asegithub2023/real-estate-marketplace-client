@@ -1,59 +1,79 @@
-# RealestateClient
+# RealEstateClient
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.17.
+A modern real-estate marketplace frontend for discovering listings and managing property activity. Built with Angular, it includes public property browsing, signed-in user workspaces, administration tools, and real-time conversations.
 
-## Development server
+## Screenshots
 
-To start a local development server, run:
+| User dashboard | Property search |
+| --- | --- |
+| ![User dashboard](docs/User%20Dashboard.PNG) | ![Property search](docs/Search.PNG) |
 
-```bash
-ng serve
+| Search page | My properties |
+| --- | --- |
+| ![Searching page](docs/Searching%20Page.PNG) | ![My properties](docs/My%20Properties.PNG) |
+
+| Login | Conversations |
+| --- | --- |
+| ![Login page](docs/Login.PNG) | ![Conversation page](docs/Conversation%20Page.PNG) |
+
+| Admin | Application view |
+| --- | --- |
+| ![Admin page](docs/Admin.PNG) | ![Application view](docs/h.PNG) |
+
+| Additional application view |
+| --- |
+| ![Additional application view](docs/zzzzz.PNG) |
+
+## Features
+
+- Browse, search, filter, sort, and view property listings.
+- Register and sign in; recover or reset a password.
+- Create and edit listings, and manage favorites and profile information.
+- User dashboard with personal listings, notifications, and conversations.
+- Send messages with real-time updates over SignalR.
+- Admin dashboard for users, properties, and reports.
+- Route-level authentication and admin access guards.
+
+## Technology
+
+| Area | Stack |
+| --- | --- |
+| Frontend | Angular 21, TypeScript, RxJS |
+| UI | SCSS, Bootstrap 5, Bootstrap Icons |
+| API and real-time | Angular `HttpClient`, SignalR |
+| Tests | Vitest through Angular CLI |
+
+## Application structure
+
+Standalone page components are lazy-loaded by the Angular router. Feature pages use shared services to call the REST API; the messaging area also connects to a SignalR hub.
+
+```text
+src/app/
+├── features/       # Property browsing, auth, user workspace, admin, reviews
+├── layout/         # Navigation and footer
+├── shared/         # Reusable UI components and utilities
+├── services/       # REST and SignalR integrations
+├── models/         # API and view data types
+├── guards/         # Authentication and admin route guards
+└── interceptors/   # HTTP authentication
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## API configuration
 
-## Code scaffolding
+The frontend uses the API base URL in `src/environments/environment.ts` and `src/environments/environment.development.ts`. Both currently point to `http://localhost:5131/api/v1`; update the relevant file for your backend. The chat client derives its SignalR endpoint at `/hubs/chat` from that API URL.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Getting started
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+**Requirements:** Node.js and npm.
 
 ```bash
-ng generate --help
+npm install
+npm start
 ```
 
-## Building
-
-To build the project run:
+Open [http://localhost:4200](http://localhost:4200). The configured backend must be running and reachable at the API URL above.
 
 ```bash
-ng build
+npm run build   # Production build
+npm test        # Unit tests
 ```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
